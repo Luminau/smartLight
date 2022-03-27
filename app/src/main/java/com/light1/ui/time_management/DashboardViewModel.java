@@ -1,4 +1,4 @@
-package com.light1.ui.dashboard;
+package com.light1.ui.time_management;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
