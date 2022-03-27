@@ -6,4 +6,10 @@
     <string name="button_select_time">手动设置时间</string>
     <string name="button_select_date">手动设置日期</string>
     <string name="button_auto_set">自动设置时间和日期</string>
+
+    <string name="intro_status">蓝牙链接状态:</string>
+    <string name="button_bluetooth_on">打开设备蓝牙</string>
+    <string name="button_bluetooth_off">关闭设备蓝牙</string>
+    <string name="button_bluetooth_show_paired">显示曾经配对过的设备</string>
+    <string name="button_bluetooth_active_scan">主动扫描蓝牙外设</string>
 </resources>
