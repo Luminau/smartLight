@@ -74,8 +74,8 @@ public class BluetoothManager extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
+//        HomeViewModel homeViewModel =
+//                new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(HomeViewModel.class);
 
         binding = FragmentBluetoothManagementBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -216,7 +216,7 @@ public class BluetoothManager extends Fragment {
                 mBTArrayAdapter.clear(); // clear items
                 mBTAdapter.startDiscovery();
                 Toast.makeText(getContext(), "Discovery started", Toast.LENGTH_SHORT).show();
-                getActivity().registerReceiver(blReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+                getContext().registerReceiver(blReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
             }
             else{
                 Toast.makeText(getContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
