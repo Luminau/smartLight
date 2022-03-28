@@ -2,7 +2,7 @@
     <string name="app_name">蓝牙智能太阳能闹钟</string>
     <string name="title_bluetooth_manager">蓝牙链接</string>
     <string name="title_settings">参数设置</string>
-    <string name="title_profile">个人信息</string>
+    <string name="title_todo_list">Todo清单</string>
     <string name="button_select_time">手动设置时间</string>
     <string name="button_select_date">手动设置日期</string>
     <string name="button_auto_set">自动设置时间和日期</string>

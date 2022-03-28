@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 // TODO: 2022/3/27 显示远端时间
+// TODO: 2022/3/28 显示远端温度
 
 public class TimeManager extends Fragment {
 

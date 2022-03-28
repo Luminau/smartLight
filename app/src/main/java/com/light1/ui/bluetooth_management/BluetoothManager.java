@@ -181,6 +181,7 @@ public class BluetoothManager extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        // TODO: 2022/3/28 摧毁broadcastreciever
         binding = null;
     }
 

@@ -32,12 +32,12 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="navigation_settings">
+                  <entry key="navigation_time_manager">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
+                            <option name="x" value="12" />
                             <option name="y" value="12" />
                           </Point>
                         </option>
