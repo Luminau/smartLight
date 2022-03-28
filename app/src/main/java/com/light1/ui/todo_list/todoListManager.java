@@ -9,9 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.light1.databinding.FragmentTodoListManagementBinding;
 
 public class todoListManager extends Fragment {
+
+    private FloatingActionButton fab;
 
     private FragmentTodoListManagementBinding binding;
 
@@ -23,9 +26,15 @@ public class todoListManager extends Fragment {
         binding = FragmentTodoListManagementBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        initParameters();
+
 //        final TextView textView = binding.textNotifications;
 //        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    protected void initParameters() {
+        fab = binding.fab;
     }
 
     @Override
