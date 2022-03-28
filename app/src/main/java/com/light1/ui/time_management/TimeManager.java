@@ -10,16 +10,28 @@ import android.widget.Button;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.light1.databinding.FragmentTimeManagementBinding;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
+
+// TODO: 2022/3/27 显示远端时间
 
 public class TimeManager extends Fragment {
 
     private Button mTimeButton;
     private Button mDateButton;
+    private Button mGetSystemTimeButton;
+
+    private TextView mTestTextView;
+
+    SimpleDateFormat simpleDateFormat;
+    Calendar calendar;
+    java.util.Date mDate;
 
     protected int hour, minute;
     protected int year, month, date;
@@ -48,8 +60,15 @@ public class TimeManager extends Fragment {
     }
 
     public void initParameters(){
+        calendar = Calendar.getInstance();
+        simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+
         mTimeButton = binding.timeButton;
         mDateButton = binding.dateButton;
+
+//        mTestTextView = binding.testTextView;
+
+        mGetSystemTimeButton = binding.getSystemTimeButton;
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,8 +81,27 @@ public class TimeManager extends Fragment {
                 popDatePicker(view);
             }
         });
+        mGetSystemTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                acquireSystemTimeAndSet();
+            }
+        });
     }
 
+    private void acquireSystemTimeAndSet() {
+        String dateTime = simpleDateFormat.format(calendar.getTime());
+        String[] dateTimeArr = dateTime.split("-");
+        year = Integer.parseInt(dateTimeArr[0]);
+        month = Integer.parseInt(dateTimeArr[1]);
+        date = Integer.parseInt(dateTimeArr[2]);
+        hour = Integer.parseInt(dateTimeArr[3]);
+        minute = Integer.parseInt(dateTimeArr[4]);
+        mTimeButton.setText(String.format(Locale.getDefault(),"%02d点%02d分",hour,minute));
+        mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号",year,month,date));
+
+//        mTestTextView.setText(Date);
+    }
 
 
     public void popTimePicker(View view)
@@ -75,7 +113,7 @@ public class TimeManager extends Fragment {
             public void onTimeSet(TimePicker timePicker, int selectHour, int selectMinute) {
                 hour = selectHour;
                 minute = selectMinute;
-                mTimeButton.setText(String.format(Locale.getDefault(),"%02d:%02d",hour,minute));
+                mTimeButton.setText(String.format(Locale.getDefault(),"%02d点%02d分",hour,minute));
             }
         };
 
@@ -93,9 +131,12 @@ public class TimeManager extends Fragment {
                 year = selectYear;
                 month = selectMonth;
                 date = selectDate;
+                mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号",year,month,date));
             }
         };
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), onDateSetListener, year, month, date);
+        datePickerDialog.setTitle("设置日期");
+        datePickerDialog.show();
     }
 }
