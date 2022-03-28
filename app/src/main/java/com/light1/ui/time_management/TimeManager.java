@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.widget.DatePicker;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -26,8 +27,8 @@ public class TimeManager extends Fragment {
     private Button mTimeButton;
     private Button mDateButton;
     private Button mGetSystemTimeButton;
-
-    private TextView mTestTextView;
+    private SeekBar mAdjustBrightnessSeekBar;
+    private TextView mTextViewCurrentBrightness;
 
     SimpleDateFormat simpleDateFormat;
     Calendar calendar;
@@ -35,6 +36,7 @@ public class TimeManager extends Fragment {
 
     protected int hour, minute;
     protected int year, month, date;
+    protected int brightness;
 
     private FragmentTimeManagementBinding binding;
 
@@ -65,8 +67,8 @@ public class TimeManager extends Fragment {
 
         mTimeButton = binding.timeButton;
         mDateButton = binding.dateButton;
-
-//        mTestTextView = binding.testTextView;
+        mAdjustBrightnessSeekBar = binding.adjustBrightnessSeekBar;
+        mTextViewCurrentBrightness = binding.textViewCurrentBrightness;
 
         mGetSystemTimeButton = binding.getSystemTimeButton;
         mTimeButton.setOnClickListener(new View.OnClickListener() {
@@ -75,23 +77,45 @@ public class TimeManager extends Fragment {
                 popTimePicker(view);
             }
         });
+
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popDatePicker(view);
             }
         });
+
         mGetSystemTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 acquireSystemTimeAndSet();
             }
         });
+
+        mAdjustBrightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                brightness = progress;
+                mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO: 2022/3/28 调节屏幕亮度使之更直观
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO: 2022/3/28 发送brightness数据
+
+            }
+        });
     }
 
     private void acquireSystemTimeAndSet() {
         String dateTime = simpleDateFormat.format(calendar.getTime());
-        String[] dateTimeArr = dateTime.split("-");
+        String[] dateTimeArr;
+        dateTimeArr = dateTime.split("-");
         year = Integer.parseInt(dateTimeArr[0]);
         month = Integer.parseInt(dateTimeArr[1]);
         date = Integer.parseInt(dateTimeArr[2]);
