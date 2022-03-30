@@ -19,7 +19,7 @@
         android:checked="false"
         android:scaleX="1.7"
         android:scaleY="1.7"
-        android:text="Toggle LED"
+        android:text="发送信号"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -58,7 +58,7 @@
             android:layout_weight="0.1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Status:"
+            android:text="@string/intro_status"
             android:textStyle="bold" />
 
         <TextView
@@ -75,25 +75,25 @@
         android:id="@+id/scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bluetooth ON" />
+        android:text="@string/button_bluetooth_on" />
 
     <Button
         android:id="@+id/off"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bluetooth OFF" />
+        android:text="@string/button_bluetooth_off" />
 
     <Button
         android:id="@+id/paired_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Show paired Devices" />
+        android:text="@string/button_bluetooth_show_paired" />
 
     <Button
         android:id="@+id/discover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Discover New Devices" />
+        android:text="@string/button_bluetooth_active_scan" />
 
     <ListView
         android:id="@+id/devices_list_view"

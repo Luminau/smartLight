@@ -2,5 +2,42 @@
     <string name="app_name">蓝牙智能太阳能闹钟</string>
     <string name="title_bluetooth_manager">蓝牙链接</string>
     <string name="title_settings">参数设置</string>
-    <string name="title_profile">个人信息</string>
+    <string name="title_todo_list">Todo清单</string>
+    <string name="button_select_time">手动设置时间</string>
+    <string name="button_select_date">手动设置日期</string>
+    <string name="button_auto_set">自动设置时间和日期</string>
+    <string name="intro_brightness_seekbar">调节LED亮度</string>
+
+    <string name="intro_status">蓝牙链接状态:</string>
+    <string name="button_bluetooth_on">打开设备蓝牙</string>
+    <string name="button_bluetooth_off">关闭设备蓝牙</string>
+    <string name="button_bluetooth_show_paired">显示曾经配对过的设备</string>
+    <string name="button_bluetooth_active_scan">主动扫描蓝牙外设</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="tv_description">Testing this thing..</string>
+    <string name="tv_title">Title</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_todo_hint">e.g., Eat less at dinner</string>
+    <string name="today_calendar_button">Today</string>
+    <string name="empty_field">Empty task</string>
+    <string name="due_date_text">Due Date</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="this_wknd">This Weekend</string>
+    <string name="next_week">Next Week</string>
+    <string name="radio_high">High</string>
+    <string name="radio_med">Medium</string>
+    <string name="radio_low">Low</string>
+    <string name="image_description">button image</string>
+    <string name="about_text">Todoist Clone App - by BAWP - version 0.1</string>
+    <string name="add_todos">Add a Todo...</string>
 </resources>
