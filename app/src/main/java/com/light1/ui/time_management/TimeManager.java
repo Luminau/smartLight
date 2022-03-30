@@ -7,12 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.light1.databinding.FragmentTimeManagementBinding;
 
