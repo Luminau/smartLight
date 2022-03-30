@@ -37,8 +37,8 @@ public class TimeManager extends Fragment {
     java.util.Date mDate;
 
     protected int hour, minute;
-    protected int year, month, date;
-    protected int brightness;
+    protected int year, month, dayOfMonth;
+    protected int brightness = 50;
 
     private FragmentTimeManagementBinding binding;
 
@@ -97,6 +97,7 @@ public class TimeManager extends Fragment {
         mAdjustBrightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                brightness = progress == 0 ? 50 : progress;
                 brightness = progress;
                 mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(progress));
             }
@@ -120,11 +121,11 @@ public class TimeManager extends Fragment {
         dateTimeArr = dateTime.split("-");
         year = Integer.parseInt(dateTimeArr[0]);
         month = Integer.parseInt(dateTimeArr[1]);
-        date = Integer.parseInt(dateTimeArr[2]);
+        dayOfMonth = Integer.parseInt(dateTimeArr[2]);
         hour = Integer.parseInt(dateTimeArr[3]);
         minute = Integer.parseInt(dateTimeArr[4]);
         mTimeButton.setText(String.format(Locale.getDefault(),"%02d点%02d分",hour,minute));
-        mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号",year,month,date));
+        mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号",year,month, dayOfMonth));
 
 //        mTestTextView.setText(Date);
     }
@@ -156,12 +157,12 @@ public class TimeManager extends Fragment {
             public void onDateSet(DatePicker datePicker, int selectYear, int selectMonth, int selectDate) {
                 year = selectYear;
                 month = selectMonth;
-                date = selectDate;
-                mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号",year,month,date));
+                dayOfMonth = selectDate;
+                mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号", year, month + 1, dayOfMonth)); //month需要加1否则会少一个月
             }
         };
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), onDateSetListener, year, month, date);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), onDateSetListener, year, month, dayOfMonth);
         datePickerDialog.setTitle("设置日期");
         datePickerDialog.show();
     }

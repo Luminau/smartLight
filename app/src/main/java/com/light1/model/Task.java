@@ -26,8 +26,8 @@ public class Task {
     @ColumnInfo(name = "is_done")
     public boolean isDone;
 
-    public Task(long taskId, String task, Priority priority, Date dueDate, Date dateCreated, boolean isDone) {
-        this.taskId = taskId;
+    public Task(String task, Priority priority, Date dueDate, Date dateCreated, boolean isDone) {
+//        this.taskId = taskId;
         this.task = task;
         this.priority = priority;
         this.dueDate = dueDate;
