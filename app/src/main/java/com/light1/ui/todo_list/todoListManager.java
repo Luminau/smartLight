@@ -2,6 +2,7 @@ package com.light1.ui.todo_list;
 
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,8 +20,11 @@ import com.light1.model.Task;
 import com.light1.model.TaskViewModel;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class todoListManager extends Fragment {
+
+    public static final String TAG = "ITEM";
 
     private TaskViewModel taskViewModel;
     private FloatingActionButton fab;
@@ -46,6 +51,12 @@ public class todoListManager extends Fragment {
         taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
                 getActivity().getApplication())
                 .create(TaskViewModel.class);
+
+        taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
+            for (Task task :tasks){
+                Log.d(TAG, "onCreate: " + task.getTaskId());
+            }
+        });
     }
 
     @Override
