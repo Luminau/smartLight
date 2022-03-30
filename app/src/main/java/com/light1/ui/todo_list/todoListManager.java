@@ -12,8 +12,11 @@ import androidx.appcompat.view.menu.MenuView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.light1.adapter.RecyclerViewAdapter;
 import com.light1.databinding.FragmentTodoListManagementBinding;
 import com.light1.model.Priority;
 import com.light1.model.Task;
@@ -27,6 +30,9 @@ public class todoListManager extends Fragment {
     public static final String TAG = "ITEM";
 
     private TaskViewModel taskViewModel;
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter recyclerViewAdapter;
+
     private FloatingActionButton fab;
     private FragmentTodoListManagementBinding binding;
 
@@ -40,6 +46,10 @@ public class todoListManager extends Fragment {
     }
 
     protected void initParameters() {
+        recyclerView = binding.recyclerView;
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         fab = binding.fab;
         fab.setOnClickListener(view -> {
             Task task = new Task("Todo", Priority.HIGH, Calendar.getInstance().getTime(),
@@ -53,9 +63,12 @@ public class todoListManager extends Fragment {
                 .create(TaskViewModel.class);
 
         taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
-            for (Task task :tasks){
-                Log.d(TAG, "onCreate: " + task.getTaskId());
-            }
+            recyclerViewAdapter = new RecyclerViewAdapter(tasks);
+            recyclerView.setAdapter(recyclerViewAdapter);
+//            for (Task task :tasks){
+//                Log.d(TAG, "onCreate: " + task.getTaskId());
+//            }
+
         });
     }
 
