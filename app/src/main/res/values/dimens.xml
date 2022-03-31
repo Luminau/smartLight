@@ -12,7 +12,7 @@
     <dimen name="dimen_32">32dp</dimen>
     <dimen name="dimen_60">60dp</dimen>
     <dimen name="top_margin">6dp</dimen>
-    <dimen name="recycler_padding">6dp</dimen>
+    <dimen name="recycler_padding">24dp</dimen>
     <dimen name="radio_padding">6dp</dimen>
 
 </resources>

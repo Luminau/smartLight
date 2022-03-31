@@ -52,9 +52,10 @@ public class todoListManager extends Fragment {
 
         fab = binding.fab;
         fab.setOnClickListener(view -> {
-            Task task = new Task("Todo", Priority.HIGH, Calendar.getInstance().getTime(),
-                    Calendar.getInstance().getTime(), false);
-            TaskViewModel.insert(task);
+//            Task task = new Task("Todoo", Priority.HIGH, Calendar.getInstance().getTime(),
+//                    Calendar.getInstance().getTime(), false);
+//            TaskViewModel.insert(task);
+            callUpSettingTaskMenu();
 
         });
 
@@ -70,6 +71,9 @@ public class todoListManager extends Fragment {
 //            }
 
         });
+    }
+
+    private void callUpSettingTaskMenu() {
     }
 
     @Override
