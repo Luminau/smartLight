@@ -20,6 +20,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.light1.databinding.ActivityMainBinding;
 import com.light1.ui.todo_list.BottomSheetFragment;
 
@@ -28,18 +29,12 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     BottomSheetFragment bottomSheetFragment;
-    com.light1.ui.todo_list.todoListManager todoListManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         bottomSheetFragment = new BottomSheetFragment();
-
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-            .hide(bottomSheetFragment)
-            .commit();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -54,30 +49,23 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
-            @Override
-            public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
-                FragmentManager fm = getSupportFragmentManager();
-                fm.beginTransaction()
-                        .addToBackStack(null)
-                        .remove(bottomSheetFragment)
-                        .commit();
-            }
-        });
+        bottomSheetFragment = new BottomSheetFragment();
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
 
     }
 
+
+    public void initBottomSheetFragment(){
+        ConstraintLayout constraintLayout = findViewById(R.id.bottomSheet);
+        BottomSheetBehavior<ConstraintLayout> bottomSheetBehavior = BottomSheetBehavior.from(constraintLayout);
+        bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.STATE_HIDDEN);
+    }
+
     public void callUPBottomSheetFragment(){
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.nav_host_fragment_activity_main, bottomSheetFragment)
-            .show(bottomSheetFragment)
-            .commit();
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
 }
