@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -51,10 +52,14 @@ public class todoListManager extends Fragment {
 
 //        bottomSheetFragment = ((MainActivity)getActivity()).bottomSheetFragment;
 
-        initParameters();
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initParameters();
+    }
 
     protected void initParameters() {
 
@@ -89,9 +94,7 @@ public class todoListManager extends Fragment {
 
     private void callUpSettingTaskMenu() {
         // TODO: 2022/4/6 test the capability of getChildFragmentManager
-//        bottomSheetFragment.show(getChildFragmentManager().beginTransaction()
-//                .replace(R.id.bottomSheet, BottomSheetFragment.class, null)
-//                , bottomSheetFragment.getTag());
+        ((MainActivity)getActivity()).callUPBottomSheetFragment();
     }
 
     @Override

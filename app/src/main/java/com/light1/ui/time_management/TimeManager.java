@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.light1.databinding.FragmentTimeManagementBinding;
@@ -38,10 +39,11 @@ public class TimeManager extends Fragment {
 
     protected int hour, minute;
     protected int year, month, dayOfMonth;
-    protected int brightness = 50;
+    protected int brightness;
 
     private FragmentTimeManagementBinding binding;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 //        DashboardViewModel dashboardViewModel =
@@ -50,11 +52,15 @@ public class TimeManager extends Fragment {
         binding = FragmentTimeManagementBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        initParameters();
-
 //        final TextView textView = binding.textDashboard;
 //        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initParameters();
     }
 
     @Override
@@ -71,6 +77,8 @@ public class TimeManager extends Fragment {
         mDateButton = binding.dateButton;
         mAdjustBrightnessSeekBar = binding.adjustBrightnessSeekBar;
         mTextViewCurrentBrightness = binding.textViewCurrentBrightness;
+        brightness = 50;
+        mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(brightness));
 
         mGetSystemTimeButton = binding.getSystemTimeButton;
         mTimeButton.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +105,6 @@ public class TimeManager extends Fragment {
         mAdjustBrightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                brightness = progress == 0 ? 50 : progress;
                 brightness = progress;
                 mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(progress));
             }

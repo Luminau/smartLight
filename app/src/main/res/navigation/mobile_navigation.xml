@@ -18,7 +18,7 @@
         tools:layout="@layout/fragment_time_management" />
 
     <fragment
-        android:id="@+id/todo_list_manager"
+        android:id="@+id/navigation_todo_list_manager"
         android:name="com.light1.ui.todo_list.todoListManager"
         android:label="@string/title_todo_list"
         tools:layout="@layout/fragment_todo_list_management" />
