@@ -9,13 +9,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.light1.MainActivity;
+import com.light1.R;
 import com.light1.adapter.RecyclerViewAdapter;
 import com.light1.databinding.FragmentTodoListManagementBinding;
 import com.light1.model.Priority;
@@ -33,19 +38,26 @@ public class todoListManager extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
 
+//    BottomSheetFragment bottomSheetFragment;
+
     private FloatingActionButton fab;
     private FragmentTodoListManagementBinding binding;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentTodoListManagementBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+//        bottomSheetFragment = ((MainActivity)getActivity()).bottomSheetFragment;
+
         initParameters();
         return root;
     }
 
+
     protected void initParameters() {
+
         recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -71,9 +83,15 @@ public class todoListManager extends Fragment {
 //            }
 
         });
+
+
     }
 
     private void callUpSettingTaskMenu() {
+        // TODO: 2022/4/6 test the capability of getChildFragmentManager
+//        bottomSheetFragment.show(getChildFragmentManager().beginTransaction()
+//                .replace(R.id.bottomSheet, BottomSheetFragment.class, null)
+//                , bottomSheetFragment.getTag());
     }
 
     @Override
