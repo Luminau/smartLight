@@ -1,34 +1,22 @@
 package com.light1.ui.todo_list;
 
-import android.app.Application;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.light1.MainActivity;
-import com.light1.R;
 import com.light1.adapter.RecyclerViewAdapter;
 import com.light1.databinding.FragmentTodoListManagementBinding;
-import com.light1.model.Priority;
-import com.light1.model.Task;
 import com.light1.model.TaskViewModel;
-
-import java.util.Calendar;
-import java.util.List;
 
 public class todoListManager extends Fragment {
 
@@ -37,9 +25,6 @@ public class todoListManager extends Fragment {
     private TaskViewModel taskViewModel;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
-
-//    BottomSheetFragment bottomSheetFragment;
-
     private FloatingActionButton fab;
     private FragmentTodoListManagementBinding binding;
 
@@ -48,13 +33,14 @@ public class todoListManager extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentTodoListManagementBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-//        bottomSheetFragment = ((MainActivity)getActivity()).bottomSheetFragment;
-
-        initParameters();
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initParameters();
+    }
 
     protected void initParameters() {
 
@@ -62,13 +48,11 @@ public class todoListManager extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        ((MainActivity)getActivity()).initSettingTaskMenu();
+
         fab = binding.fab;
         fab.setOnClickListener(view -> {
-//            Task task = new Task("Todoo", Priority.HIGH, Calendar.getInstance().getTime(),
-//                    Calendar.getInstance().getTime(), false);
-//            TaskViewModel.insert(task);
             callUpSettingTaskMenu();
-
         });
 
         taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
@@ -83,15 +67,10 @@ public class todoListManager extends Fragment {
 //            }
 
         });
-
-
     }
 
     private void callUpSettingTaskMenu() {
-        // TODO: 2022/4/6 test the capability of getChildFragmentManager
-//        bottomSheetFragment.show(getChildFragmentManager().beginTransaction()
-//                .replace(R.id.bottomSheet, BottomSheetFragment.class, null)
-//                , bottomSheetFragment.getTag());
+        ((MainActivity)getActivity()).callUpSettingTaskMenu();
     }
 
     @Override

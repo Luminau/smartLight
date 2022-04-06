@@ -4,18 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.light1.R;
-import com.light1.databinding.BottomSheetBinding;
 
-public class BottomSheetFragment extends Fragment {
+public class BottomSheetFragment extends BottomSheetDialogFragment {
+
+    public BottomSheetFragment(){}
 
     @Override
     public View onCreateView(
