@@ -32,28 +32,12 @@ public class todoListManager extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentTodoListManagementBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        return root;
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initParameters();
-    }
-
-    protected void initParameters() {
+        fab = binding.fab;
 
         recyclerView = binding.recyclerView;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        ((MainActivity)getActivity()).initBottomSheetFragment();
-
-        fab = binding.fab;
-        fab.setOnClickListener(view -> {
-            callUPBottomSheetFragment();
-        });
 
         taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
                 getActivity().getApplication())
@@ -65,7 +49,22 @@ public class todoListManager extends Fragment {
 //            for (Task task :tasks){
 //                Log.d(TAG, "onCreate: " + task.getTaskId());
 //            }
+        });
 
+        View root = binding.getRoot();
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initParameters();
+    }
+
+    protected void initParameters() {
+        ((MainActivity)getActivity()).initBottomSheetFragment();
+        fab.setOnClickListener(view -> {
+            callUPBottomSheetFragment();
         });
     }
 
