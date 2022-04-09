@@ -18,6 +18,7 @@ import com.light1.MainActivity;
 import com.light1.adapter.OnTodoClickListener;
 import com.light1.adapter.RecyclerViewAdapter;
 import com.light1.databinding.FragmentTodoListManagementBinding;
+import com.light1.model.SharedViewModel;
 import com.light1.model.Task;
 import com.light1.model.TaskViewModel;
 
@@ -28,6 +29,7 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
     private TaskViewModel taskViewModel;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
+    private SharedViewModel sharedViewModel;
     private FloatingActionButton fab;
     private FragmentTodoListManagementBinding binding;
 
@@ -45,6 +47,9 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
         taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
                 getActivity().getApplication())
                 .create(TaskViewModel.class);
+
+        sharedViewModel = new ViewModelProvider(requireActivity())
+                .get(SharedViewModel.class);
 
         taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
             recyclerViewAdapter = new RecyclerViewAdapter(tasks, this);
@@ -75,6 +80,7 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
         ((MainActivity)getActivity()).callUPBottomSheetFragment();
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -82,8 +88,18 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
     }
 
     @Override
-    public void onTodoClick(int adapterPosition, Task task) {
-        Log.d("Click", "onTodoClick: " + adapterPosition + "taskName" + task.getTask());
+    public void onTodoClick(Task task) {
+//        Log.d("Click", "onTodoClick: " + adapterPosition + "taskName" + task.getTask());
+        sharedViewModel.selectItem(task);
+        sharedViewModel.setIsEdit(true);
+        callUPBottomSheetFragment();
+    }
 
+    @Override
+    public void onTodoRadioButtonClick(Task task) {
+//        Log.d("Click", "onTodoRadioButtonClick: " + task.getTask());
+//        task.setDone(task.isDone);
+        TaskViewModel.delete(task);
+        recyclerViewAdapter.notifyDataSetChanged();
     }
 }

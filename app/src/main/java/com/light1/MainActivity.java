@@ -31,10 +31,9 @@ public class MainActivity extends AppCompatActivity {
     BottomSheetFragment bottomSheetFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-
-        bottomSheetFragment = new BottomSheetFragment();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
