@@ -1,6 +1,7 @@
 package com.light1.ui.todo_list;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.light1.MainActivity;
+import com.light1.adapter.OnTodoClickListener;
 import com.light1.adapter.RecyclerViewAdapter;
 import com.light1.databinding.FragmentTodoListManagementBinding;
+import com.light1.model.Task;
 import com.light1.model.TaskViewModel;
 
-public class todoListManager extends Fragment {
+public class todoListManager extends Fragment implements OnTodoClickListener {
 
     public static final String TAG = "ITEM";
 
@@ -44,7 +47,7 @@ public class todoListManager extends Fragment {
                 .create(TaskViewModel.class);
 
         taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
-            recyclerViewAdapter = new RecyclerViewAdapter(tasks);
+            recyclerViewAdapter = new RecyclerViewAdapter(tasks, this);
             recyclerView.setAdapter(recyclerViewAdapter);
 //            for (Task task :tasks){
 //                Log.d(TAG, "onCreate: " + task.getTaskId());
@@ -76,5 +79,11 @@ public class todoListManager extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onTodoClick(int adapterPosition, Task task) {
+        Log.d("Click", "onTodoClick: " + adapterPosition + "taskName" + task.getTask());
+
     }
 }
