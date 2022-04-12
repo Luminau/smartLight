@@ -1,7 +1,6 @@
 package com.light1.ui.todo_list;
 
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +10,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TableLayout;
 
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.snackbar.Snackbar;
 import com.light1.R;
 import com.light1.adapter.util.Utils;
 import com.light1.model.Priority;
@@ -43,8 +42,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     Calendar calendar = Calendar.getInstance();
     private SharedViewModel sharedViewModel;
     private boolean isEdit;
+    private Priority priority;
 
-    public BottomSheetFragment(){}
+    public BottomSheetFragment() {
+    }
 
     @Override
     public View onCreateView(
@@ -77,7 +78,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                 .get(SharedViewModel.class);
 
         calendarButton.setOnClickListener(view12 -> {
-            calendarGroup.setVisibility(calendarGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            calendarGroup.setVisibility(
+                    calendarGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
+            );
+            Utils.hideSoftKeyboard(view12);
 
         });
 
@@ -88,24 +92,64 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
 
         });
 
+        priorityButton.setOnSystemUiVisibilityChangeListener(i -> {
+            Utils.hideSoftKeyboard(this.getView());
+
+        });
+
+        priorityButton.setOnClickListener(view13 -> {
+            Utils.hideSoftKeyboard(view13);
+            priorityRadioGroup.setVisibility(
+                    priorityRadioGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
+            );
+            priorityRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> {
+                if (priorityRadioGroup.getVisibility() == View.VISIBLE) {
+                    selectedButtonId = checkedId;
+                    selectedRadioButton = view.findViewById(selectedButtonId);
+                    if (selectedRadioButton.getId() == R.id.radioButton_high) {
+                        priority = Priority.HIGH;
+                    } else if (selectedRadioButton.getId() == R.id.radioButton_med) {
+                        priority = Priority.MEDIUM;
+                    } else if (selectedRadioButton.getId() == R.id.radioButton_low) {
+                        priority = Priority.LOW;
+                    } else {
+                        priority = Priority.LOW;
+                    }
+                }
+                else {
+                    priority = Priority.LOW;
+                }
+
+            });
+
+        });
+
         saveButton.setOnClickListener(view1 -> {
+            Utils.hideSoftKeyboard(view1);
             String taskName = enterTodo.getText().toString().trim();
-            if(!TextUtils.isEmpty(taskName) && dueDate != null){
-                Task myTask = new Task(taskName, Priority.HIGH,
+            if (!TextUtils.isEmpty(taskName) && dueDate != null && priority != null) {
+                Task myTask = new Task(taskName, priority,
                         dueDate, Calendar.getInstance().getTime(),
                         false);
-                if(isEdit == false)
+                if (isEdit == false)
                     TaskViewModel.insert(myTask);
-                else{
+                else {
                     Task updateTask = sharedViewModel.getSelectedItem().getValue();
                     updateTask.setTask(taskName);
                     updateTask.setDateCreated(Calendar.getInstance().getTime());
-                    updateTask.setPriority(Priority.HIGH);
+                    updateTask.setPriority(priority);
                     updateTask.setDueDate(dueDate);
                     TaskViewModel.update(updateTask);
                     sharedViewModel.setIsEdit(false);
                 }
-
+                enterTodo.setText("");
+                if(this.isVisible()) {
+                    this.dismiss();
+                }
+            }
+            else {
+                Snackbar.make(saveButton, R.string.empty_field, Snackbar.LENGTH_LONG)
+                        .show();
             }
 
         });
@@ -115,7 +159,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     @Override
     public void onResume() {
         super.onResume();
-        if(sharedViewModel.getSelectedItem().getValue() != null){
+        if (sharedViewModel.getSelectedItem().getValue() != null) {
             isEdit = sharedViewModel.getIsEdit();
             Task task = sharedViewModel.getSelectedItem().getValue();
             enterTodo.setText(task.getTask());
@@ -125,7 +169,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch(id){
+        switch (id) {
             case R.id.today_chip:
                 calendar.add(Calendar.DAY_OF_YEAR, 0);
                 dueDate = calendar.getTime();
@@ -134,6 +178,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                 dueDate = calendar.getTime();
             case R.id.next_week_chip:
                 calendar.add(Calendar.DAY_OF_YEAR, 7);
+                dueDate = calendar.getTime();
+            default:
                 dueDate = calendar.getTime();
         }
     }
