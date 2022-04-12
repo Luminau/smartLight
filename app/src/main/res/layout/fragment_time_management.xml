@@ -57,6 +57,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/getSystemTimeButton" />
 
+    <SeekBar
+        android:id="@+id/adjustVolumeSeekBar"
+        android:layout_width="309dp"
+        android:layout_height="28dp"
+        android:progress="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/getSystemTimeButton"
+        app:layout_constraintVertical_bias="0.752" />
+
     <TextView
         android:id="@+id/textViewAdjustBrightness"
         android:layout_width="wrap_content"
@@ -79,4 +90,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adjustBrightnessSeekBar"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewAdjustVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/intro_volume_seekbar"
+        app:layout_constraintBottom_toTopOf="@+id/adjustVolumeSeekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCurrentBrightness"
+        app:layout_constraintVertical_bias="1.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

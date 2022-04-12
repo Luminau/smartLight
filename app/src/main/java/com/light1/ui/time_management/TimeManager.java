@@ -31,15 +31,17 @@ public class TimeManager extends Fragment {
     private Button mDateButton;
     private Button mGetSystemTimeButton;
     private SeekBar mAdjustBrightnessSeekBar;
+    private SeekBar mAdjustVolumeSeekBar;
     private TextView mTextViewCurrentBrightness;
 
     SimpleDateFormat simpleDateFormat;
     Calendar calendar;
     java.util.Date mDate;
 
-    protected int hour, minute;
-    protected int year, month, dayOfMonth;
-    protected int brightness;
+    private int hour, minute;
+    private int year, month, dayOfMonth;
+    private int brightness = 50;
+    private int volume = 100;
 
     private FragmentTimeManagementBinding binding;
 
@@ -76,6 +78,7 @@ public class TimeManager extends Fragment {
         mTimeButton = binding.timeButton;
         mDateButton = binding.dateButton;
         mAdjustBrightnessSeekBar = binding.adjustBrightnessSeekBar;
+        mAdjustVolumeSeekBar = binding.adjustVolumeSeekBar;
         mTextViewCurrentBrightness = binding.textViewCurrentBrightness;
         brightness = 50;
         mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(brightness));
@@ -119,7 +122,26 @@ public class TimeManager extends Fragment {
                 // TODO: 2022/3/28 发送brightness数据
 
             }
+
         });
+
+        mAdjustVolumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                volume = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
     }
 
     private void acquireSystemTimeAndSet() {
