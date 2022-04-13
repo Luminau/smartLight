@@ -77,6 +77,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             itemView.setOnClickListener(this);
             radioButton.setOnClickListener(this);
+            todayChip.setOnClickListener(this);
+
         }
 
         @Override
@@ -88,6 +90,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
             else if(id == R.id.todo_radio_button){
                 onTodoClickListener.onTodoRadioButtonClick(currTask);
+            }
+            else if(id == R.id.todo_row_chip) {
+                onTodoClickListener.onTodoRowChipClick(currTask);
             }
 
         }

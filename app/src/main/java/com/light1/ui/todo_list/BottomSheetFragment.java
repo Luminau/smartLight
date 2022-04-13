@@ -164,6 +164,16 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             Task task = sharedViewModel.getSelectedItem().getValue();
             enterTodo.setText(task.getTask());
         }
+        else {
+            enterTodo.setText("");
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sharedViewModel.selectItem(null);
+        sharedViewModel.setIsEdit(false);
     }
 
     @Override

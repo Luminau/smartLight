@@ -66,6 +66,7 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((MainActivity)getActivity()).initBottomSheetFragment();
         fab.setOnClickListener(view1 -> {
             ((MainActivity)getActivity()).initBottomSheetFragment();
             callUPBottomSheetFragment();
@@ -97,6 +98,13 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
 //        task.setDone(task.isDone);
         TaskViewModel.delete(task);
         recyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onTodoRowChipClick(Task task) {
+        sharedViewModel.selectItem(task);
+        sharedViewModel.setIsEdit(true);
+        callUPBottomSheetFragment();
     }
 
 }
