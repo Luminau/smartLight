@@ -1,7 +1,10 @@
 package com.light1.ui.time_management;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ import com.light1.databinding.FragmentTimeManagementBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 // TODO: 2022/3/27 显示远端时间
@@ -40,6 +44,7 @@ public class TimeManager extends Fragment {
 
     private int hour, minute;
     private int year, month, dayOfMonth;
+    private int defaultYear = 2022, defaultMonth = 4, defaultDayOfMonth = 1;
     private int brightness = 50;
     private int volume = 100;
 
@@ -56,13 +61,14 @@ public class TimeManager extends Fragment {
 
 //        final TextView textView = binding.textDashboard;
 //        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        initParameters();
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initParameters();
+
     }
 
     @Override
@@ -181,18 +187,19 @@ public class TimeManager extends Fragment {
 
     public void popDatePicker(View view)
     {
-        DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int selectYear, int selectMonth, int selectDate) {
-                year = selectYear;
-                month = selectMonth;
-                dayOfMonth = selectDate;
-                mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号", year, month + 1, dayOfMonth)); //month需要加1否则会少一个月
-            }
+        DatePickerDialog.OnDateSetListener onDateSetListener = (datePicker, selectYear, selectMonth, selectDate) -> {
+            year = selectYear;
+            month = selectMonth;
+            dayOfMonth = selectDate;
+            mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号", year, month + 1, dayOfMonth)); //month需要加1否则会少一个月
         };
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), onDateSetListener, year, month, dayOfMonth);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), onDateSetListener, defaultYear, defaultMonth, defaultDayOfMonth);
+//        datePickerDialog.updateDate(defaultYear, defaultMonth - 1, defaultDayOfMonth);
+//        datePickerDialog.init
         datePickerDialog.setTitle("设置日期");
         datePickerDialog.show();
     }
+
+
 }

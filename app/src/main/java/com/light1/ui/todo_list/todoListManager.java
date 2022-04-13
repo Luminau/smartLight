@@ -66,12 +66,8 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initParameters();
-    }
-
-    protected void initParameters() {
-        ((MainActivity)getActivity()).initBottomSheetFragment();
-        fab.setOnClickListener(view -> {
+        fab.setOnClickListener(view1 -> {
+            ((MainActivity)getActivity()).initBottomSheetFragment();
             callUPBottomSheetFragment();
         });
     }
@@ -84,7 +80,7 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+//        binding = null;
     }
 
     @Override
@@ -102,4 +98,5 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
         TaskViewModel.delete(task);
         recyclerViewAdapter.notifyDataSetChanged();
     }
+
 }

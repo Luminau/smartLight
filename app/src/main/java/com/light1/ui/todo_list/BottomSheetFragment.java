@@ -42,7 +42,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     Calendar calendar = Calendar.getInstance();
     private SharedViewModel sharedViewModel;
     private boolean isEdit;
-    private Priority priority;
+    private Priority priority = Priority.LOW;
 
     public BottomSheetFragment() {
     }
