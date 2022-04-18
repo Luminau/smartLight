@@ -38,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Task task = taskList.get(position);
-        String formattedDueDate = Utils.formatDate(task.getDueDate());
+        String formattedDueDate = "到期于：" + Utils.formatDate(task.getDueDate());
 
         ColorStateList colorStateList = new ColorStateList(new int[][]{
                 new int[] {-android.R.attr.state_enabled},

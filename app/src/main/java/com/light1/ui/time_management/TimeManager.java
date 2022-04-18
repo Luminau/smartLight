@@ -150,7 +150,7 @@ public class TimeManager extends Fragment {
 
     }
 
-    private void acquireSystemTimeAndSet() {
+    public void acquireSystemTimeAndSet() {
         String dateTime = simpleDateFormat.format(calendar.getTime());
         String[] dateTimeArr;
         dateTimeArr = dateTime.split("-");
@@ -164,7 +164,6 @@ public class TimeManager extends Fragment {
 
 //        mTestTextView.setText(Date);
     }
-
 
     public void popTimePicker(View view)
     {

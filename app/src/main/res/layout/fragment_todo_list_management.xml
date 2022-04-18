@@ -16,7 +16,9 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@android:drawable/ic_input_add"
+        app:srcCompat="@drawable/ic_baseline_add_circle_24"
+        app:backgroundTintMode="add"
+        app:backgroundTint="@color/cardview_light_background"
         tools:ignore="ContentDescription" />
 
     <androidx.recyclerview.widget.RecyclerView

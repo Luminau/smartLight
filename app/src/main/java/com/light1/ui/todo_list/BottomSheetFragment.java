@@ -1,7 +1,10 @@
 package com.light1.ui.todo_list;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.Group;
@@ -27,11 +31,13 @@ import com.light1.model.TaskViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment implements View.OnClickListener {
     private EditText enterTodo;
     private ImageButton calendarButton;
     private ImageButton priorityButton;
+    private ImageButton timeButton;
     private RadioGroup priorityRadioGroup;
     private RadioButton selectedRadioButton;
     private int selectedButtonId;
@@ -43,6 +49,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     private SharedViewModel sharedViewModel;
     private boolean isEdit;
     private Priority priority = Priority.LOW;
+
+    private int year, month, dayOfMonth, hour, minute;
 
     public BottomSheetFragment() {
     }
@@ -56,6 +64,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
         calendarGroup = view.findViewById(R.id.calendar_group);
         calendarView = view.findViewById(R.id.calendar_view);
         calendarButton = view.findViewById(R.id.today_calendar_button);
+        timeButton = view.findViewById(R.id.time_button);
         enterTodo = view.findViewById(R.id.enter_todo_et);
         saveButton = view.findViewById(R.id.save_todo_button);
         priorityButton = view.findViewById(R.id.priority_todo_button);
@@ -68,6 +77,11 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
         Chip newtWeekChip = view.findViewById(R.id.next_week_chip);
         newtWeekChip.setOnClickListener(this);
 
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        hour = calendar.get(Calendar.HOUR);
+        minute = calendar.get(Calendar.MINUTE);
 
         return view;
     }
@@ -85,10 +99,32 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
 
         });
 
+        timeButton.setOnClickListener(view14 -> {
+            calendar.clear();
+
+            TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker timePicker, int selectHour, int selectMinute) {
+                    hour = selectHour;
+                    minute = selectMinute;
+                }
+            };
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), onTimeSetListener, Calendar.getInstance().get(Calendar.HOUR), Calendar.getInstance().get(Calendar.MINUTE), true);
+
+            timePickerDialog.setTitle("设置到期时间");
+            timePickerDialog.show();
+
+        });
+
         calendarView.setOnDateChangeListener((calendarView, year, month, dayOfMonth) -> {
             calendar.clear();
-            calendar.set(year, month, dayOfMonth);
-            dueDate = calendar.getTime();
+            this.year = year;
+            this.month = month;
+            this.dayOfMonth = dayOfMonth;
+//            calendar.clear();
+//            calendar.set(year, month, dayOfMonth);
+//            dueDate = calendar.getTime();
 
         });
 
@@ -127,6 +163,11 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
         saveButton.setOnClickListener(view1 -> {
             Utils.hideSoftKeyboard(view1);
             String taskName = enterTodo.getText().toString().trim();
+
+            calendar.clear();
+            calendar.set(year, month, dayOfMonth, hour, minute);
+            dueDate = calendar.getTime();
+
             if (!TextUtils.isEmpty(taskName) && dueDate != null && priority != null) {
                 Task myTask = new Task(taskName, priority,
                         dueDate, Calendar.getInstance().getTime(),

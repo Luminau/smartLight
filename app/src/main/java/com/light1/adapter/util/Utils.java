@@ -16,7 +16,7 @@ public class Utils {
 
     public static String formatDate(Date date) {
         SimpleDateFormat simpleDateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
-        simpleDateFormat.applyPattern("yyyy年 MM月 dd号 EEEE HH点mm分");
+        simpleDateFormat.applyPattern("yyyy年MM月dd号HH点mm分");
         return simpleDateFormat.format(date);
     }
 
