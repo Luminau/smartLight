@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.light1.databinding.FragmentBluetoothManagementBinding;
@@ -77,15 +78,6 @@ public class BluetoothManager extends Fragment {
         binding = FragmentBluetoothManagementBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        initParameters();
-
-
-//        final TextView textView = binding.textHome;
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
-    }
-
-    public void initParameters(){
         mBluetoothStatus = binding.bluetoothStatus;
         mReadBuffer = binding.readBuffer;
         mScanBtn = binding.scan;
@@ -101,10 +93,11 @@ public class BluetoothManager extends Fragment {
         mDevicesListView.setAdapter(mBTArrayAdapter); // assign model to view
         mDevicesListView.setOnItemClickListener(mDeviceClickListener);
 
-        mHandler = new Handler(Looper.getMainLooper()){
+
+        mHandler = new Handler(Looper.getMainLooper()) {
             @Override
-            public void handleMessage(Message msg){
-                if(msg.what == MESSAGE_READ){
+            public void handleMessage(Message msg) {
+                if (msg.what == MESSAGE_READ) {
                     String readMessage = null;
                     try {
                         readMessage = new String((byte[]) msg.obj, "UTF-8");
@@ -114,8 +107,8 @@ public class BluetoothManager extends Fragment {
                     mReadBuffer.setText(readMessage);
                 }
 
-                if(msg.what == CONNECTING_STATUS){
-                    if(msg.arg1 == 1)
+                if (msg.what == CONNECTING_STATUS) {
+                    if (msg.arg1 == 1)
                         mBluetoothStatus.setText("Connected to Device: " + msg.obj);
                     else
                         mBluetoothStatus.setText("Connection Failed");
@@ -126,14 +119,13 @@ public class BluetoothManager extends Fragment {
         if (mBTArrayAdapter == null) {
             // Device does not support Bluetooth
             mBluetoothStatus.setText("Status: Bluetooth not found");
-            Toast.makeText(getContext(),"Bluetooth device not found!",Toast.LENGTH_SHORT).show();
-        }
-        else {
+            Toast.makeText(getContext(), "Bluetooth device not found!", Toast.LENGTH_SHORT).show();
+        } else {
 
-            mLED1.setOnClickListener(new View.OnClickListener(){
+            mLED1.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
-                    if(mConnectedThread != null) //First check to make sure thread created
+                public void onClick(View v) {
+                    if (mConnectedThread != null) //First check to make sure thread created
                         mConnectedThread.write("1");
                 }
             });
@@ -146,77 +138,76 @@ public class BluetoothManager extends Fragment {
                 }
             });
 
-            mOffBtn.setOnClickListener(new View.OnClickListener(){
+            mOffBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     bluetoothOff();
                 }
             });
 
             mListPairedDevicesBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     listPairedDevices();
                 }
             });
 
-            mDiscoverBtn.setOnClickListener(new View.OnClickListener(){
+            mDiscoverBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     discover();
                 }
             });
         }
-
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-
+//        String strName = getArguments().getString("From Activity");
+        return root;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // TODO: 2022/3/28 摧毁broadcastreciever
         binding = null;
+//        getActivity().unregisterReceiver(blReceiver);
     }
 
-    private void bluetoothOn(){
+    private void bluetoothOn() {
         if (!mBTAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             mBluetoothStatus.setText("Bluetooth enabled");
-            Toast.makeText(getContext(),"Bluetooth turned on",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Bluetooth turned on", Toast.LENGTH_SHORT).show();
 
-        }
-        else{
-            Toast.makeText(getContext(),"Bluetooth is already on", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Bluetooth is already on", Toast.LENGTH_SHORT).show();
         }
     }
 
     @SuppressLint("MissingPermission")
-    private void bluetoothOff(){
+    private void bluetoothOff() {
         mBTAdapter.disable(); // turn off
         mBluetoothStatus.setText("Bluetooth disabled");
-        Toast.makeText(getContext(),"Bluetooth turned Off", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Bluetooth turned Off", Toast.LENGTH_SHORT).show();
     }
 
-    @SuppressLint("MissingPermission")
-    private void discover(){
+    private void discover() {
         // Check if the device is already discovering
-        if(mBTAdapter.isDiscovering()){
-            mBTAdapter.cancelDiscovery();
-            Toast.makeText(getContext(),"Discovery stopped",Toast.LENGTH_SHORT).show();
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
         }
-        else{
-            if(mBTAdapter.isEnabled()) {
+        if (mBTAdapter.isDiscovering()) {
+            mBTAdapter.cancelDiscovery();
+            Log.d("startdiscover", "stopdiscover: " + mBTAdapter.getScanMode());
+            Toast.makeText(getContext(), "Discovery stopped", Toast.LENGTH_SHORT).show();
+        } else {
+            if (mBTAdapter.isEnabled()) {
                 mBTArrayAdapter.clear(); // clear items
                 mBTAdapter.startDiscovery();
                 Toast.makeText(getContext(), "Discovery started", Toast.LENGTH_SHORT).show();
-                getContext().registerReceiver(blReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
-            }
-            else{
+                Log.d("startdiscover", "startdiscover: " + mBTAdapter.getScanMode());
+                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+                getActivity().registerReceiver(blReceiver, filter);
+            } else {
                 Toast.makeText(getContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
             }
         }
@@ -227,9 +218,13 @@ public class BluetoothManager extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)){
+            Log.d("finddevice", "discover: " + intent.getAction());
+            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // add the name to the list
+//                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//                }
                 mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                 mBTArrayAdapter.notifyDataSetChanged();
             }
