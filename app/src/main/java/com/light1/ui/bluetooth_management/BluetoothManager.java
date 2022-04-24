@@ -1,6 +1,7 @@
 package com.light1.ui.bluetooth_management;
 
 import static android.content.ContentValues.TAG;
+import static com.light1.adapter.util.Utils.formatChineseToGBK;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -67,6 +68,8 @@ public class BluetoothManager extends Fragment {
     private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
 
+    private String resolvedString;
+
 
     private FragmentBluetoothManagementBinding binding;
 
@@ -126,7 +129,15 @@ public class BluetoothManager extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (mConnectedThread != null) //First check to make sure thread created
-                        mConnectedThread.write("1");
+//                        mConnectedThread.write(
+//                                resolveString(
+//                                        formatDateNoLetter(
+//                                                getSetTime()
+//                                        )
+//                                )
+//                        );
+                        mConnectedThread.write(formatChineseToGBK("今天"));
+//                    mConnectedThread.write("今天");
                 }
             });
 
@@ -232,17 +243,16 @@ public class BluetoothManager extends Fragment {
     };
 
     @SuppressLint("MissingPermission")
-    private void listPairedDevices(){
+    private void listPairedDevices() {
         mBTArrayAdapter.clear();
         mPairedDevices = mBTAdapter.getBondedDevices();
-        if(mBTAdapter.isEnabled()) {
+        if (mBTAdapter.isEnabled()) {
             // put it's one to the adapter
             for (BluetoothDevice device : mPairedDevices)
                 mBTArrayAdapter.add(device.getName() + "\n" + device.getAddress());
 
             Toast.makeText(getContext(), "Show Paired Devices", Toast.LENGTH_SHORT).show();
-        }
-        else
+        } else
             Toast.makeText(getContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
     }
 
@@ -250,7 +260,7 @@ public class BluetoothManager extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            if(!mBTAdapter.isEnabled()) {
+            if (!mBTAdapter.isEnabled()) {
                 Toast.makeText(getContext(), "Bluetooth not on", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -259,11 +269,10 @@ public class BluetoothManager extends Fragment {
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) view).getText().toString();
             final String address = info.substring(info.length() - 17);
-            final String name = info.substring(0,info.length() - 17);
+            final String name = info.substring(0, info.length() - 17);
 
             // Spawn a new thread to avoid blocking the GUI one
-            new Thread()
-            {
+            new Thread() {
                 @SuppressLint("MissingPermission")
                 @Override
                 public void run() {
@@ -291,7 +300,7 @@ public class BluetoothManager extends Fragment {
                             Toast.makeText(getContext(), "Socket creation failed", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    if(!fail) {
+                    if (!fail) {
                         mConnectedThread = new ConnectedThread(mBTSocket, mHandler);
                         mConnectedThread.start();
 
@@ -309,8 +318,16 @@ public class BluetoothManager extends Fragment {
             final Method m = device.getClass().getMethod("createInsecureRfcommSocketToServiceRecord", UUID.class);
             return (BluetoothSocket) m.invoke(device, BT_MODULE_UUID);
         } catch (Exception e) {
-            Log.e(TAG, "Could not create Insecure RFComm Connection",e);
+            Log.e(TAG, "Could not create Insecure RFComm Connection", e);
         }
-        return  device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
+        return device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
+    }
+
+    private String resolveString(String s) {
+        if (s != null) {
+            return s;
+        } else {
+            return "00000000";
+        }
     }
 }

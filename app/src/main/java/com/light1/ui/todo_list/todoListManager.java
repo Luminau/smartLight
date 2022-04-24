@@ -1,7 +1,6 @@
 package com.light1.ui.todo_list;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,15 +65,15 @@ public class todoListManager extends Fragment implements OnTodoClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)getActivity()).initBottomSheetFragment();
+        ((MainActivity) getActivity()).initBottomSheetFragment();
         fab.setOnClickListener(view1 -> {
-            ((MainActivity)getActivity()).initBottomSheetFragment();
+            ((MainActivity) getActivity()).initBottomSheetFragment();
             callUPBottomSheetFragment();
         });
     }
 
     private void callUPBottomSheetFragment() {
-        ((MainActivity)getActivity()).callUPBottomSheetFragment();
+        ((MainActivity) getActivity()).callUPBottomSheetFragment();
     }
 
 

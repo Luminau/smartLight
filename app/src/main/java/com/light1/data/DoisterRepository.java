@@ -19,7 +19,7 @@ public class DoisterRepository {
         allTasks = taskDao.getTask();
     }
 
-    public LiveData<List<Task>> getAllTasks(){
+    public LiveData<List<Task>> getAllTasks() {
         return allTasks;
     }
 
@@ -27,13 +27,15 @@ public class DoisterRepository {
         TaskRoomDatabase.databaseWriterExcutor.execute(() -> taskDao.insertTask(task));
     }
 
-    public LiveData<Task> get(long id){return taskDao.get(id);}
+    public LiveData<Task> get(long id) {
+        return taskDao.get(id);
+    }
 
-    public void update(Task task){
+    public void update(Task task) {
         TaskRoomDatabase.databaseWriterExcutor.execute(() -> taskDao.update(task));
     }
 
-    public void delete(Task task){
+    public void delete(Task task) {
         TaskRoomDatabase.databaseWriterExcutor.execute(() -> taskDao.delete(task));
     }
 }

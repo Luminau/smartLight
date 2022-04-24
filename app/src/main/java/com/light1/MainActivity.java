@@ -25,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
     BottomSheetFragment bottomSheetFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -44,20 +43,20 @@ public class MainActivity extends AppCompatActivity {
 
         bottomSheetFragment = new BottomSheetFragment();
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
     }
 
 
-    public void initBottomSheetFragment(){
+    public void initBottomSheetFragment() {
         ConstraintLayout constraintLayout = findViewById(R.id.bottomSheet);
         BottomSheetBehavior<ConstraintLayout> bottomSheetBehavior = BottomSheetBehavior.from(constraintLayout);
         bottomSheetBehavior.setPeekHeight(BottomSheetBehavior.STATE_HIDDEN);
     }
 
-    public void callUPBottomSheetFragment(){
+    public void callUPBottomSheetFragment() {
         bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 

@@ -3,8 +3,6 @@ package com.light1.ui.todo_list;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +29,6 @@ import com.light1.model.TaskViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment implements View.OnClickListener {
     private EditText enterTodo;
@@ -151,8 +148,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                     } else {
                         priority = Priority.LOW;
                     }
-                }
-                else {
+                } else {
                     priority = Priority.LOW;
                 }
 
@@ -184,11 +180,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                     sharedViewModel.setIsEdit(false);
                 }
                 enterTodo.setText("");
-                if(this.isVisible()) {
+                if (this.isVisible()) {
                     this.dismiss();
                 }
-            }
-            else {
+            } else {
                 Snackbar.make(saveButton, R.string.empty_field, Snackbar.LENGTH_LONG)
                         .show();
             }
@@ -204,8 +199,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             isEdit = sharedViewModel.getIsEdit();
             Task task = sharedViewModel.getSelectedItem().getValue();
             enterTodo.setText(task.getTask());
-        }
-        else {
+        } else {
             enterTodo.setText("");
         }
     }

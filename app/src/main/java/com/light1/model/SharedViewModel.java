@@ -8,19 +8,19 @@ public class SharedViewModel extends ViewModel {
     private final MutableLiveData<Task> selectedItem = new MutableLiveData<>();
     private boolean isEdit;
 
-    public void selectItem(Task task){
+    public void selectItem(Task task) {
         selectedItem.setValue(task);
     }
 
-    public LiveData<Task> getSelectedItem(){
+    public LiveData<Task> getSelectedItem() {
         return selectedItem;
     }
 
-    public void setIsEdit(boolean isEdit){
+    public void setIsEdit(boolean isEdit) {
         this.isEdit = isEdit;
     }
 
-    public boolean getIsEdit(){
+    public boolean getIsEdit() {
         return isEdit;
     }
 }

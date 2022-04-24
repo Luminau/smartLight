@@ -1,7 +1,7 @@
 package com.light1.adapter;
+
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +41,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String formattedDueDate = "到期于：" + Utils.formatDate(task.getDueDate());
 
         ColorStateList colorStateList = new ColorStateList(new int[][]{
-                new int[] {-android.R.attr.state_enabled},
-                new int[] {android.R.attr.state_enabled}
-        }, new int[] {
+                new int[]{-android.R.attr.state_enabled},
+                new int[]{android.R.attr.state_enabled}
+        }, new int[]{
                 Color.LTGRAY, //disabled
                 Utils.priorityColor(task)
 
@@ -85,13 +85,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(View view) {
             Task currTask = taskList.get(getAdapterPosition());
             int id = view.getId();
-            if(id == R.id.todo_row_layout){
+            if (id == R.id.todo_row_layout) {
                 onTodoClickListener.onTodoClick(currTask);
-            }
-            else if(id == R.id.todo_radio_button){
+            } else if (id == R.id.todo_radio_button) {
                 onTodoClickListener.onTodoRadioButtonClick(currTask);
-            }
-            else if(id == R.id.todo_row_chip) {
+            } else if (id == R.id.todo_row_chip) {
                 onTodoClickListener.onTodoRowChipClick(currTask);
             }
 

@@ -7,6 +7,8 @@ import android.os.SystemClock;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
+import java.util.Arrays;
 
 public class ConnectedThread extends Thread {
     private final BluetoothSocket mmSocket;
@@ -25,7 +27,8 @@ public class ConnectedThread extends Thread {
         try {
             tmpIn = socket.getInputStream();
             tmpOut = socket.getOutputStream();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
 
         mmInStream = tmpIn;
         mmOutStream = tmpOut;
@@ -40,7 +43,7 @@ public class ConnectedThread extends Thread {
             try {
                 // Read from the InputStream
                 bytes = mmInStream.available();
-                if(bytes != 0) {
+                if (bytes != 0) {
                     buffer = new byte[1024];
                     SystemClock.sleep(100); //pause and wait for rest of data. Adjust this depending on your sending speed.
                     bytes = mmInStream.available(); // how many bytes are ready to be read?
@@ -61,13 +64,25 @@ public class ConnectedThread extends Thread {
         byte[] bytes = input.getBytes();           //converts entered String into bytes
         try {
             mmOutStream.write(bytes);
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
+    }
+
+    public void write(long input) {
+        BigInteger bigInt = BigInteger.valueOf(input);
+        byte[] bytes = bigInt.toByteArray();
+        byte[] sentbytes = Arrays.copyOfRange(bytes, 1, bytes.length);
+        try {
+            mmOutStream.write(sentbytes);
+        } catch (IOException e) {
+        }
     }
 
     /* Call this from the main activity to shutdown the connection */
     public void cancel() {
         try {
             mmSocket.close();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+        }
     }
 }

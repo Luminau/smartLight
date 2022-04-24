@@ -1,16 +1,12 @@
 package com.light1.ui.time_management;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -42,11 +38,21 @@ public class TimeManager extends Fragment {
     Calendar calendar;
     java.util.Date mDate;
 
-    private int hour, minute;
-    private int year, month, dayOfMonth;
+    private static int hour, minute;
+    private static int year, month, dayOfMonth;
     private int defaultYear = 2022, defaultMonth = 4, defaultDayOfMonth = 1;
     private int brightness = 50;
     private int volume = 100;
+
+    public int getHour() {
+        return hour;
+    }
+
+    public static Date getSetTime() {
+        Calendar.getInstance().clear();
+        Calendar.getInstance().set(year, month, dayOfMonth, hour, minute);
+        return Calendar.getInstance().getTime();
+    }
 
     private FragmentTimeManagementBinding binding;
 

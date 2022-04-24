@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.lang.reflect.Constructor;
 import java.util.Date;
 
 @Entity(tableName = "task_table")
