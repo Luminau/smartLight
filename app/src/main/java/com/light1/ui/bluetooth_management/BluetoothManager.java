@@ -2,6 +2,8 @@ package com.light1.ui.bluetooth_management;
 
 import static android.content.ContentValues.TAG;
 import static com.light1.adapter.util.Utils.formatChineseToGBK;
+import static com.light1.adapter.util.Utils.formatDateNoLetter;
+import static com.light1.ui.time_management.TimeManager.getSetTime;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -32,8 +34,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.light1.databinding.FragmentBluetoothManagementBinding;
+import com.light1.model.TaskViewModel;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -68,7 +72,8 @@ public class BluetoothManager extends Fragment {
     private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
 
-    private String resolvedString;
+    private String TaskInfo;
+    private TaskViewModel taskViewModel;
 
 
     private FragmentBluetoothManagementBinding binding;
@@ -95,6 +100,14 @@ public class BluetoothManager extends Fragment {
         mDevicesListView = binding.devicesListView;
         mDevicesListView.setAdapter(mBTArrayAdapter); // assign model to view
         mDevicesListView.setOnItemClickListener(mDeviceClickListener);
+
+        taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
+                getActivity().getApplication())
+                .create(TaskViewModel.class);
+
+        taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
+            TaskInfo = tasks.toString();
+        });
 
 
         mHandler = new Handler(Looper.getMainLooper()) {
@@ -129,15 +142,13 @@ public class BluetoothManager extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (mConnectedThread != null) //First check to make sure thread created
-//                        mConnectedThread.write(
-//                                resolveString(
-//                                        formatDateNoLetter(
-//                                                getSetTime()
-//                                        )
-//                                )
-//                        );
+                        mConnectedThread.write(
+                                        formatDateNoLetter(
+                                                getSetTime()
+                                        )
+                        );
                         mConnectedThread.write(formatChineseToGBK("今天"));
-//                    mConnectedThread.write("今天");
+//                        mConnectedThread.write(resolveTaskInfo(TaskInfo));
                 }
             });
 
@@ -323,11 +334,8 @@ public class BluetoothManager extends Fragment {
         return device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
     }
 
-    private String resolveString(String s) {
-        if (s != null) {
-            return s;
-        } else {
-            return "00000000";
-        }
+    private String resolveTaskInfo(String s) {
+        Log.e("TAG",TaskInfo);
+        return "测试";
     }
 }

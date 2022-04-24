@@ -82,17 +82,26 @@ public class Task {
         isDone = done;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Task{" +
+//                "taskId=" + taskId +
+//                ", task='" + task + '\'' +
+//                ", priority=" + priority +
+//                ", dueDate=" + dueDate +
+//                ", dateCreated=" + dateCreated +
+//                ", isDone=" + isDone +
+//                '}';
+//    }
     @Override
     public String toString() {
-        return "Task{" +
-                "taskId=" + taskId +
-                ", task='" + task + '\'' +
-                ", priority=" + priority +
-                ", dueDate=" + dueDate +
-                ", dateCreated=" + dateCreated +
-                ", isDone=" + isDone +
-                '}';
+        return taskId + '\'' +
+                task + '\'' +
+                priority + '\'' +
+                dueDate + '\'' +
+                dateCreated + '\'' +
+                isDone + '\''
+                ;
     }
-
 
 }
