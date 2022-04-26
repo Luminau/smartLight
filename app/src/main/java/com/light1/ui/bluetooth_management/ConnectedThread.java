@@ -7,8 +7,7 @@ import android.os.SystemClock;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigInteger;
-import java.util.Arrays;
+import java.io.UnsupportedEncodingException;
 
 public class ConnectedThread extends Thread {
     private final BluetoothSocket mmSocket;
@@ -60,23 +59,28 @@ public class ConnectedThread extends Thread {
     }
 
     /* Call this from the main activity to send data to the remote device */
-    public void write(String input) {
-        byte[] bytes = input.getBytes();           //converts entered String into bytes
+    public void writeString(String input) {
+        byte[] bytes = new byte[0];           //converts entered String into bytes
+        try {
+            bytes = input.getBytes("gb2312");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         try {
             mmOutStream.write(bytes);
         } catch (IOException e) {
         }
     }
 
-    public void write(long input) {
-        BigInteger bigInt = BigInteger.valueOf(input);
-        byte[] bytes = bigInt.toByteArray();
-        byte[] sentbytes = Arrays.copyOfRange(bytes, 1, bytes.length);
-        try {
-            mmOutStream.write(sentbytes);
-        } catch (IOException e) {
-        }
-    }
+//    public void writeLong(long input) {
+//        BigInteger bigInt = BigInteger.valueOf(input);
+//        byte[] bytes = bigInt.toByteArray();
+//        byte[] sentbytes = Arrays.copyOfRange(bytes, 1, bytes.length);
+//        try {
+//            mmOutStream.write(sentbytes);
+//        } catch (IOException e) {
+//        }
+//    }
 
     /* Call this from the main activity to shutdown the connection */
     public void cancel() {

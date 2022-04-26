@@ -1,7 +1,6 @@
 package com.light1.ui.bluetooth_management;
 
 import static android.content.ContentValues.TAG;
-import static com.light1.adapter.util.Utils.formatChineseToGBK;
 import static com.light1.adapter.util.Utils.formatDateNoLetter;
 import static com.light1.ui.time_management.TimeManager.getSetTime;
 
@@ -36,12 +35,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.light1.adapter.util.Utils;
 import com.light1.databinding.FragmentBluetoothManagementBinding;
+import com.light1.model.Task;
 import com.light1.model.TaskViewModel;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -72,7 +74,8 @@ public class BluetoothManager extends Fragment {
     private ConnectedThread mConnectedThread; // bluetooth background worker thread to send and receive data
     private BluetoothSocket mBTSocket = null; // bi-directional client-to-client data path
 
-    private String TaskInfo;
+    //    private String taskInfo;
+    private List<Task> taskList;
     private TaskViewModel taskViewModel;
 
 
@@ -106,7 +109,7 @@ public class BluetoothManager extends Fragment {
                 .create(TaskViewModel.class);
 
         taskViewModel.getAllTasks().observe(getViewLifecycleOwner(), tasks -> {
-            TaskInfo = tasks.toString();
+            taskList = tasks;
         });
 
 
@@ -116,7 +119,7 @@ public class BluetoothManager extends Fragment {
                 if (msg.what == MESSAGE_READ) {
                     String readMessage = null;
                     try {
-                        readMessage = new String((byte[]) msg.obj, "UTF-8");
+                        readMessage = new String((byte[]) msg.obj, "GBK");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -141,14 +144,17 @@ public class BluetoothManager extends Fragment {
             mLED1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mConnectedThread != null) //First check to make sure thread created
-                        mConnectedThread.write(
-                                        formatDateNoLetter(
-                                                getSetTime()
-                                        )
+                    if (mConnectedThread != null) { //First check to make sure thread created
+                        mConnectedThread.writeString(
+                                formatDateNoLetter(
+                                        getSetTime()
+                                ) + "$"
                         );
-                        mConnectedThread.write(formatChineseToGBK("今天"));
-//                        mConnectedThread.write(resolveTaskInfo(TaskInfo));
+//                        mConnectedThread.writeString("今天");
+                        mConnectedThread.writeString(retrieveTaskInfo(taskList));
+                    } else {
+                        Toast.makeText(getContext(), "请连接蓝牙设备", Toast.LENGTH_SHORT);
+                    }
                 }
             });
 
@@ -334,8 +340,22 @@ public class BluetoothManager extends Fragment {
         return device.createRfcommSocketToServiceRecord(BT_MODULE_UUID);
     }
 
-    private String resolveTaskInfo(String s) {
-        Log.e("TAG",TaskInfo);
-        return "测试";
+    private String retrieveTaskInfo(List<Task> taskList) {
+        String out = "";
+        if (taskList != null) {
+            for (Task task : taskList) {
+                out = out + task.getTask();
+                out = out + "$";
+                out = out + task.getNumPriority();
+                out = out + "$";
+                out = out + Utils.formatDateNoLetter(task.getDueDate());
+                out = out + "$";
+                out = out + Utils.formatDateNoLetter(task.getDateCreated());
+                out = out + "$";
+            }
+            return out;
+        } else {
+            return "0";
+        }
     }
 }

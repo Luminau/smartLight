@@ -54,6 +54,16 @@ public class Task {
         return priority;
     }
 
+    public int getNumPriority() {
+        if (priority == Priority.HIGH) {
+            return 3;
+        } else if (priority == Priority.MEDIUM) {
+            return 2;
+        } else if (priority == Priority.LOW) {
+            return 1;
+        } else return 0;
+    }
+
     public void setPriority(Priority priority) {
         this.priority = priority;
     }
@@ -82,17 +92,6 @@ public class Task {
         isDone = done;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Task{" +
-//                "taskId=" + taskId +
-//                ", task='" + task + '\'' +
-//                ", priority=" + priority +
-//                ", dueDate=" + dueDate +
-//                ", dateCreated=" + dateCreated +
-//                ", isDone=" + isDone +
-//                '}';
-//    }
     @Override
     public String toString() {
         return taskId + '\'' +
@@ -100,8 +99,9 @@ public class Task {
                 priority + '\'' +
                 dueDate + '\'' +
                 dateCreated + '\'' +
-                isDone + '\''
+                isDone + "$"
                 ;
     }
+
 
 }

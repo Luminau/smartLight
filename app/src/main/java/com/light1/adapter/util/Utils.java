@@ -8,8 +8,6 @@ import android.view.inputmethod.InputMethodManager;
 import com.light1.model.Priority;
 import com.light1.model.Task;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,17 +24,17 @@ public class Utils {
         simpleDateFormat.applyPattern("yyyyMMddHHmm");
         return simpleDateFormat.format(date);
     }
-
-    public static Long formatChineseToGBK(String s) {
-        try {
-            String res = URLEncoder.encode(s, "GBK");
-            res = res.replace("%", "");
-            return Long.parseLong(res, 16);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    
+//    public static Long formatChineseToGBK(String s) {
+//        try {
+//            String res = URLEncoder.encode(s, "GBK");
+//            res = res.replace("%", "");
+//            return Long.parseLong(res, 16);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     public static String str2HexStr(String str) {
 
