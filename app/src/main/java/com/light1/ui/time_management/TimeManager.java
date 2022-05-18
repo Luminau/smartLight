@@ -41,11 +41,19 @@ public class TimeManager extends Fragment {
     private static int hour, minute;
     private static int year, month, dayOfMonth;
     private int defaultYear = 2022, defaultMonth = 4, defaultDayOfMonth = 1;
-    private int brightness = 50;
-    private int volume = 100;
+    private static int brightness = 5;
+    private static int volume = 8;
 
-    public int getHour() {
+    public static int getHour() {
         return hour;
+    }
+
+    public static int getBrightness() {
+        return brightness;
+    }
+
+    public static int getVolume() {
+        return volume;
     }
 
     public static Date getSetTime() {
@@ -92,7 +100,8 @@ public class TimeManager extends Fragment {
         mAdjustBrightnessSeekBar = binding.adjustBrightnessSeekBar;
         mAdjustVolumeSeekBar = binding.adjustVolumeSeekBar;
         mTextViewCurrentBrightness = binding.textViewCurrentBrightness;
-        brightness = 50;
+//        brightness = 5;
+//        volume = 8;
         mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(brightness));
 
         mGetSystemTimeButton = binding.getSystemTimeButton;

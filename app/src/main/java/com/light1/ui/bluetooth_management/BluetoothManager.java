@@ -2,7 +2,9 @@ package com.light1.ui.bluetooth_management;
 
 import static android.content.ContentValues.TAG;
 import static com.light1.adapter.util.Utils.formatDateNoLetter;
+import static com.light1.ui.time_management.TimeManager.getBrightness;
 import static com.light1.ui.time_management.TimeManager.getSetTime;
+import static com.light1.ui.time_management.TimeManager.getVolume;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -150,6 +152,7 @@ public class BluetoothManager extends Fragment {
                                         getSetTime()
                                 ) + "$"
                         );
+                        mConnectedThread.writeString(getBrightness() + "$" + getVolume() + "$");
 //                        mConnectedThread.writeString("今天");
                         mConnectedThread.writeString(retrieveTaskInfo(taskList));
                     } else {
@@ -348,9 +351,11 @@ public class BluetoothManager extends Fragment {
                 out = out + "$";
                 out = out + task.getNumPriority();
                 out = out + "$";
+                out = out + Utils.formatDateNoLetter(task.getDateCreated());
+                out = out + "$";
                 out = out + Utils.formatDateNoLetter(task.getDueDate());
                 out = out + "$";
-                out = out + Utils.formatDateNoLetter(task.getDateCreated());
+                out = out + task.getAlarmSound();
                 out = out + "$";
             }
             return out;

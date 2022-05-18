@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottomSheet"
     style="@style/Animation.Design.BottomSheetDialog"
     android:layout_width="match_parent"
@@ -39,13 +40,24 @@
         android:id="@+id/time_button"
         android:layout_width="77dp"
         android:layout_height="46dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/image_description"
+        app:layout_constraintStart_toStartOf="@+id/today_calendar_button"
+        app:layout_constraintTop_toBottomOf="@+id/today_calendar_button"
+        app:srcCompat="@drawable/ic_baseline_access_time_24"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <ImageButton
+        android:id="@+id/alarm_button"
+        android:layout_width="77dp"
+        android:layout_height="46dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/image_description"
         app:layout_constraintStart_toEndOf="@+id/priority_todo_button"
         app:layout_constraintTop_toBottomOf="@+id/enter_todo_et"
-        app:srcCompat="@drawable/ic_baseline_access_time_24" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/ic_baseline_notifications_active_24" />
 
     <ImageButton
         android:id="@+id/save_todo_button"
@@ -57,7 +69,7 @@
         android:scaleX="0.4"
         android:scaleY="0.4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/time_button"
+        app:layout_constraintStart_toEndOf="@+id/alarm_button"
         app:layout_constraintTop_toBottomOf="@+id/enter_todo_et"
         app:srcCompat="@drawable/ic_baseline_arrow_circle_up_24" />
 
@@ -171,12 +183,57 @@
             android:text="@string/radio_low" />
     </RadioGroup>
 
+    <RadioGroup
+        android:id="@+id/radioGroup_alarm"
+        android:layout_width="0dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:padding="@dimen/dimen_10"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priority_todo_button">
+
+        <RadioButton
+            android:id="@+id/radioButton_alarm_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/holo_red_light"
+            android:text="@string/radio_alarm_1" />
+
+        <RadioButton
+            android:id="@+id/radioButton_alarm_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/holo_orange_light"
+            android:text="@string/radio_alarm_2" />
+
+        <RadioButton
+            android:id="@+id/radioButton_alarm_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_light"
+            android:text="@string/radio_alarm_3" />
+
+        <RadioButton
+            android:id="@+id/radioButton_alarm_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/holo_green_light"
+            android:text="@string/radio_alarm_4" />
+    </RadioGroup>
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/calendar_group"
         android:layout_width="280dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        app:constraint_referenced_ids="calendar_view,next_week_chip,tomorrow_chip,today_chip,textView"
+        app:constraint_referenced_ids="calendar_view,next_week_chip,tomorrow_chip,today_chip,textView,time_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

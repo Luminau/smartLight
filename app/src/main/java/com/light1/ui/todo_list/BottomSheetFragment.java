@@ -34,10 +34,14 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     private EditText enterTodo;
     private ImageButton calendarButton;
     private ImageButton priorityButton;
+    private ImageButton alarmButton;
     private ImageButton timeButton;
     private RadioGroup priorityRadioGroup;
-    private RadioButton selectedRadioButton;
-    private int selectedButtonId;
+    private RadioButton selectedPriorityRadioButton;
+    private RadioGroup alarmRadioGroup;
+    private RadioButton selectedAlarmRadioButton;
+    private int selectedPriorityButtonId;
+    private int selectedAlarmButtonId;
     private ImageButton saveButton;
     private CalendarView calendarView;
     private Group calendarGroup;
@@ -46,6 +50,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     private SharedViewModel sharedViewModel;
     private boolean isEdit;
     private Priority priority = Priority.LOW;
+    private int alarmSound = 0;
 
     private int year, month, dayOfMonth, hour, minute;
 
@@ -66,6 +71,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
         saveButton = view.findViewById(R.id.save_todo_button);
         priorityButton = view.findViewById(R.id.priority_todo_button);
         priorityRadioGroup = view.findViewById(R.id.radioGroup_priority);
+        alarmButton = view.findViewById(R.id.alarm_button);
+        alarmRadioGroup = view.findViewById(R.id.radioGroup_alarm);
 
         Chip todayChip = view.findViewById(R.id.today_chip);
         todayChip.setOnClickListener(this);
@@ -127,7 +134,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
 
         priorityButton.setOnSystemUiVisibilityChangeListener(i -> {
             Utils.hideSoftKeyboard(this.getView());
+        });
 
+        alarmButton.setOnSystemUiVisibilityChangeListener(i -> {
+            Utils.hideSoftKeyboard(this.getView());
         });
 
         priorityButton.setOnClickListener(view13 -> {
@@ -137,13 +147,13 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             );
             priorityRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> {
                 if (priorityRadioGroup.getVisibility() == View.VISIBLE) {
-                    selectedButtonId = checkedId;
-                    selectedRadioButton = view.findViewById(selectedButtonId);
-                    if (selectedRadioButton.getId() == R.id.radioButton_high) {
+                    selectedPriorityButtonId = checkedId;
+                    selectedPriorityRadioButton = view.findViewById(selectedPriorityButtonId);
+                    if (selectedPriorityRadioButton.getId() == R.id.radioButton_high) {
                         priority = Priority.HIGH;
-                    } else if (selectedRadioButton.getId() == R.id.radioButton_med) {
+                    } else if (selectedPriorityRadioButton.getId() == R.id.radioButton_med) {
                         priority = Priority.MEDIUM;
-                    } else if (selectedRadioButton.getId() == R.id.radioButton_low) {
+                    } else if (selectedPriorityRadioButton.getId() == R.id.radioButton_low) {
                         priority = Priority.LOW;
                     } else {
                         priority = Priority.LOW;
@@ -154,6 +164,34 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
 
             });
 
+        });
+
+        alarmButton.setOnClickListener(v -> {
+            Utils.hideSoftKeyboard(v);
+            alarmRadioGroup.setVisibility(
+                    alarmRadioGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
+            );
+            alarmRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                if (alarmRadioGroup.getVisibility() == View.VISIBLE) {
+                    selectedAlarmButtonId = checkedId;
+                    selectedAlarmRadioButton = view.findViewById(selectedAlarmButtonId);
+                    if (selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_1) {
+                        alarmSound = 1;
+                    }
+                    else if(selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_2) {
+                        alarmSound = 2;
+                    }
+                    else if (selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_3) {
+                        alarmSound = 3;
+                    }
+                    else if (selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_4) {
+                        alarmSound = 4;
+                    }
+                    else {
+                        alarmSound = 0; //发送0代表未进行设置错误，在单片机端采用默认铃声
+                    }
+                }
+            });
         });
 
         saveButton.setOnClickListener(view1 -> {
@@ -167,7 +205,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             if (!TextUtils.isEmpty(taskName) && dueDate != null && priority != null) {
                 Task myTask = new Task(taskName, priority,
                         dueDate, Calendar.getInstance().getTime(),
-                        false);
+                        false, alarmSound);
                 if (isEdit == false)
                     TaskViewModel.insert(myTask);
                 else {
@@ -176,6 +214,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                     updateTask.setDateCreated(Calendar.getInstance().getTime());
                     updateTask.setPriority(priority);
                     updateTask.setDueDate(dueDate);
+                    updateTask.setAlarmSound(alarmSound);
                     TaskViewModel.update(updateTask);
                     sharedViewModel.setIsEdit(false);
                 }

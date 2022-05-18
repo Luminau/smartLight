@@ -25,13 +25,17 @@ public class Task {
     @ColumnInfo(name = "is_done")
     public boolean isDone;
 
-    public Task(String task, Priority priority, Date dueDate, Date dateCreated, boolean isDone) {
+    @ColumnInfo(name = "alarm_sound")
+    public int alarmSound;
+
+    public Task(String task, Priority priority, Date dueDate, Date dateCreated, boolean isDone, int alarmSound) {
 //        this.taskId = taskId;
         this.task = task;
         this.priority = priority;
         this.dueDate = dueDate;
         this.dateCreated = dateCreated;
         this.isDone = isDone;
+        this.alarmSound = alarmSound;
     }
 
     public long getTaskId() {
@@ -82,6 +86,14 @@ public class Task {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public int getAlarmSound() {
+        return alarmSound;
+    }
+
+    public void setAlarmSound(int alarmSound) {
+        this.alarmSound = alarmSound;
     }
 
     public boolean isDone() {
