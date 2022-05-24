@@ -59,17 +59,41 @@ public class ConnectedThread extends Thread {
     }
 
     /* Call this from the main activity to send data to the remote device */
-    public void writeString(String input) {
+    public boolean writeString(String input) {
         byte[] bytes = new byte[0];           //converts entered String into bytes
         try {
             bytes = input.getBytes("gb2312");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        try {
-            mmOutStream.write(bytes);
-        } catch (IOException e) {
+
+        byte[] finalBytes = bytes;
+        Thread sendThread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                for (int i = 0; i < finalBytes.length; i++) {
+                    try {
+                        mmOutStream.write(finalBytes[i]);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        Thread.sleep(65);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        if(sendThread.isAlive() == false) {
+            sendThread.start();
+            return true;
         }
+        else {
+            return false;
+        }
+//            mmOutStream.write(bytes);
     }
 
 //    public void writeLong(long input) {

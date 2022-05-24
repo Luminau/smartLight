@@ -147,14 +147,19 @@ public class BluetoothManager extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (mConnectedThread != null) { //First check to make sure thread created
-                        mConnectedThread.writeString(
-                                formatDateNoLetter(
-                                        getSetTime()
-                                ) + "$"
-                        );
-                        mConnectedThread.writeString(getBrightness() + "$" + getVolume() + "$");
-//                        mConnectedThread.writeString("今天");
-                        mConnectedThread.writeString(retrieveTaskInfo(taskList));
+                        String clockSetString ="STANDBY" +"&" + formatDateNoLetter(getSetTime())+ "$" + getBrightness() + "$" + getVolume() + "$" + retrieveTaskInfo(taskList) + "&";
+//                        mConnectedThread.writeString(
+//                                formatDateNoLetter(
+//                                        getSetTime()
+//                                ) + "$"
+//                        );
+//                        mConnectedThread.writeString(getBrightness() + "$" + getVolume() + "$");
+////                        mConnectedThread.writeString("今天");
+//                        mConnectedThread.writeString(retrieveTaskInfo(taskList));
+                        boolean ableToWrite = mConnectedThread.writeString(clockSetString);
+                        if(ableToWrite == false) {
+                            Toast.makeText(getContext(), "无法进行传输，请稍后再试", Toast.LENGTH_SHORT);
+                        }
                     } else {
                         Toast.makeText(getContext(), "请连接蓝牙设备", Toast.LENGTH_SHORT);
                     }
