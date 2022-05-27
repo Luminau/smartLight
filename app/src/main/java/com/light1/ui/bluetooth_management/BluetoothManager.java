@@ -2,6 +2,7 @@ package com.light1.ui.bluetooth_management;
 
 import static android.content.ContentValues.TAG;
 import static com.light1.adapter.util.Utils.formatDateNoLetter;
+import static com.light1.adapter.util.Utils.formatDateNoLetter2;
 import static com.light1.ui.time_management.TimeManager.getBrightness;
 import static com.light1.ui.time_management.TimeManager.getSetTime;
 import static com.light1.ui.time_management.TimeManager.getVolume;
@@ -147,7 +148,7 @@ public class BluetoothManager extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (mConnectedThread != null) { //First check to make sure thread created
-                        String clockSetString ="STANDBY" +"&" + formatDateNoLetter(getSetTime())+ "$" + getBrightness() + "$" + getVolume() + "$" + retrieveTaskInfo(taskList) + "&";
+                        String clockSetString ="STANDBY" +"&" + formatDateNoLetter2(getSetTime()) + "`" + retrieveTaskInfo(taskList) + "&";
 //                        mConnectedThread.writeString(
 //                                formatDateNoLetter(
 //                                        getSetTime()
@@ -355,17 +356,13 @@ public class BluetoothManager extends Fragment {
                 out = out + task.getTask();
                 out = out + "$";
                 out = out + task.getNumPriority();
-                out = out + "$";
-                out = out + Utils.formatDateNoLetter(task.getDateCreated());
-                out = out + "$";
+//                out = out + Utils.formatDateNoLetter(task.getDateCreated());
                 out = out + Utils.formatDateNoLetter(task.getDueDate());
-                out = out + "$";
                 out = out + task.getAlarmSound();
-                out = out + "$";
             }
             return out;
         } else {
-            return "0";
+            return "";
         }
     }
 }

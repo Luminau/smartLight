@@ -10,6 +10,7 @@ import com.light1.model.Task;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Utils {
 
@@ -19,12 +20,42 @@ public class Utils {
         return simpleDateFormat.format(date);
     }
 
+    public static String formatDateNoLetter2(Date date) {
+        SimpleDateFormat simpleDateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
+        simpleDateFormat.applyPattern("yyyyMMddHHmmss");
+        return simpleDateFormat.format(date) + getDayNumInWeek(date);
+    }
+
     public static String formatDateNoLetter(Date date) {
         SimpleDateFormat simpleDateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
-        simpleDateFormat.applyPattern("yyyyMMddHHmm");
+        simpleDateFormat.applyPattern("yyyyMMddHHmmss");
         return simpleDateFormat.format(date);
     }
-    
+
+    public static String getDayNumInWeek(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EE", Locale.US);
+//        simpleDateFormat.applyPattern("EEE");
+//        return simpleDateFormat.format(date);
+        String dayNumInWeek = simpleDateFormat.format(date);
+        if (dayNumInWeek == "Mon") {
+            return "1";
+        } else if (dayNumInWeek.equals("Tue")) {
+            return "2";
+        } else if (dayNumInWeek.equals("Wed")) {
+            return "3";
+        } else if (dayNumInWeek.equals("Thu")) {
+            return "4";
+        } else if (dayNumInWeek.equals("Fri")) {
+            return "5";
+        } else if (dayNumInWeek.equals("Sat")) {
+            return "6";
+        } else if (dayNumInWeek.equals("Sun")){
+            return "7";
+        } else{
+            return "";
+        }
+    }
+
 //    public static Long formatChineseToGBK(String s) {
 //        try {
 //            String res = URLEncoder.encode(s, "GBK");

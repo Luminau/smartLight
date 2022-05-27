@@ -38,7 +38,7 @@ public class TimeManager extends Fragment {
     Calendar calendar;
     java.util.Date mDate;
 
-    private static int hour, minute;
+    private static int hour, minute, seconds = 0;
     private static int year, month, dayOfMonth;
     private int defaultYear = 2022, defaultMonth = 4, defaultDayOfMonth = 1;
     private static int brightness = 5;
@@ -58,7 +58,7 @@ public class TimeManager extends Fragment {
 
     public static Date getSetTime() {
         Calendar.getInstance().clear();
-        Calendar.getInstance().set(year, month, dayOfMonth, hour, minute);
+        Calendar.getInstance().set(year, month, dayOfMonth, hour, minute, seconds);
         return Calendar.getInstance().getTime();
     }
 
@@ -174,7 +174,8 @@ public class TimeManager extends Fragment {
         dayOfMonth = Integer.parseInt(dateTimeArr[2]);
         hour = Integer.parseInt(dateTimeArr[3]);
         minute = Integer.parseInt(dateTimeArr[4]);
-        mTimeButton.setText(String.format(Locale.getDefault(),"%02d点%02d分",hour,minute));
+        seconds = Integer.parseInt(dateTimeArr[5]);
+        mTimeButton.setText(String.format(Locale.getDefault(),"%02d点%02d分%02d秒",hour,minute,seconds));
         mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号",year,month, dayOfMonth));
 
 //        mTestTextView.setText(Date);
