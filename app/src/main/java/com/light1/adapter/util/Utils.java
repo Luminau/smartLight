@@ -28,7 +28,7 @@ public class Utils {
 
     public static String formatDateNoLetter(Date date) {
         SimpleDateFormat simpleDateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance();
-        simpleDateFormat.applyPattern("yyyyMMddHHmmss");
+        simpleDateFormat.applyPattern("yyyyMMddHHmm");
         return simpleDateFormat.format(date);
     }
 

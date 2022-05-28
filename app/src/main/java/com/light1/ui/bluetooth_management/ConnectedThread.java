@@ -14,6 +14,11 @@ public class ConnectedThread extends Thread {
     private final InputStream mmInStream;
     private final OutputStream mmOutStream;
     private final Handler mHandler;
+    private static boolean isWriting = false;
+
+    public static boolean getIsWriting() {
+        return isWriting;
+    }
 
     public ConnectedThread(BluetoothSocket socket, Handler handler) {
         mmSocket = socket;
@@ -59,7 +64,7 @@ public class ConnectedThread extends Thread {
     }
 
     /* Call this from the main activity to send data to the remote device */
-    public boolean writeString(String input) {
+    public void writeString(String input) {
         byte[] bytes = new byte[0];           //converts entered String into bytes
         try {
             bytes = input.getBytes("gb2312");
@@ -72,6 +77,7 @@ public class ConnectedThread extends Thread {
             @Override
             public void run() {
                 super.run();
+                isWriting = true;
                 for (int i = 0; i < finalBytes.length; i++) {
                     try {
                         mmOutStream.write(finalBytes[i]);
@@ -84,14 +90,12 @@ public class ConnectedThread extends Thread {
                         e.printStackTrace();
                     }
                 }
+                isWriting = false;
             }
         };
-        if(sendThread.isAlive() == false) {
+
+        if(isWriting == false) {
             sendThread.start();
-            return true;
-        }
-        else {
-            return false;
         }
 //            mmOutStream.write(bytes);
     }

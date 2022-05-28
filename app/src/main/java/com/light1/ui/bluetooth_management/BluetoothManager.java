@@ -3,6 +3,7 @@ package com.light1.ui.bluetooth_management;
 import static android.content.ContentValues.TAG;
 import static com.light1.adapter.util.Utils.formatDateNoLetter;
 import static com.light1.adapter.util.Utils.formatDateNoLetter2;
+import static com.light1.ui.bluetooth_management.ConnectedThread.getIsWriting;
 import static com.light1.ui.time_management.TimeManager.getBrightness;
 import static com.light1.ui.time_management.TimeManager.getSetTime;
 import static com.light1.ui.time_management.TimeManager.getVolume;
@@ -148,7 +149,7 @@ public class BluetoothManager extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (mConnectedThread != null) { //First check to make sure thread created
-                        String clockSetString ="STANDBY" +"&" + formatDateNoLetter2(getSetTime()) + "`" + retrieveTaskInfo(taskList) + "&";
+                        String clockSetString = "STANDBY" + "&" + formatDateNoLetter2(getSetTime()) + retrieveTaskInfo(taskList) + "&";
 //                        mConnectedThread.writeString(
 //                                formatDateNoLetter(
 //                                        getSetTime()
@@ -157,12 +158,34 @@ public class BluetoothManager extends Fragment {
 //                        mConnectedThread.writeString(getBrightness() + "$" + getVolume() + "$");
 ////                        mConnectedThread.writeString("今天");
 //                        mConnectedThread.writeString(retrieveTaskInfo(taskList));
-                        boolean ableToWrite = mConnectedThread.writeString(clockSetString);
-                        if(ableToWrite == false) {
+                        mConnectedThread.writeString(clockSetString);
+                        if (getIsWriting() == true) {
                             Toast.makeText(getContext(), "无法进行传输，请稍后再试", Toast.LENGTH_SHORT);
+                            mLED1.setEnabled(false);
+
+                            Thread thread = new Thread() {
+                                @Override
+                                public void run() {
+                                    super.run();
+                                    boolean isWriting;
+                                    do {
+                                        isWriting = getIsWriting();
+                                    } while (isWriting);
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mLED1.setEnabled(true);
+                                        }
+                                    });
+                                }
+                            };
+                            if(thread != null) {
+                                thread.start();
+                            }
                         }
                     } else {
                         Toast.makeText(getContext(), "请连接蓝牙设备", Toast.LENGTH_SHORT);
+                        mLED1.setEnabled(true);
                     }
                 }
             });
@@ -332,6 +355,7 @@ public class BluetoothManager extends Fragment {
 
                         mHandler.obtainMessage(CONNECTING_STATUS, 1, -1, name)
                                 .sendToTarget();
+                        mConnectedThread.writeString("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     }
                 }
             }.start();
@@ -353,12 +377,17 @@ public class BluetoothManager extends Fragment {
         String out = "";
         if (taskList != null) {
             for (Task task : taskList) {
-                out = out + task.getTask();
-                out = out + "$";
-                out = out + task.getNumPriority();
-//                out = out + Utils.formatDateNoLetter(task.getDateCreated());
-                out = out + Utils.formatDateNoLetter(task.getDueDate());
-                out = out + task.getAlarmSound();
+                if (task.getTask().startsWith("闹钟")) {
+                    out = out + "#" + task.getNumPriority() + Utils.formatDateNoLetter(task.getDueDate()) + task.getAlarmSound();
+                } else {
+                    out = out + "`";
+                    out = out + task.getTask();
+                    out = out + "$";
+                    out = out + task.getNumPriority();
+//                  out = out + Utils.formatDateNoLetter(task.getDateCreated());
+                    out = out + Utils.formatDateNoLetter(task.getDueDate());
+                    out = out + task.getAlarmSound();
+                }
             }
             return out;
         } else {

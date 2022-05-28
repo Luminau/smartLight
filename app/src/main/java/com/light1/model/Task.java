@@ -59,7 +59,9 @@ public class Task {
     }
 
     public int getNumPriority() {
-        if (priority == Priority.HIGH) {
+        if (priority == Priority.VERYHIGH) {
+            return 4;
+        } else if (priority == Priority.HIGH) {
             return 3;
         } else if (priority == Priority.MEDIUM) {
             return 2;

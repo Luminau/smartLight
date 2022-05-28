@@ -38,10 +38,10 @@
     <string name="radio_high">High</string>
     <string name="radio_med">Medium</string>
     <string name="radio_low">Low</string>
-    <string name="radio_alarm_1">闹钟1</string>
-    <string name="radio_alarm_2">闹钟2</string>
-    <string name="radio_alarm_3">闹钟3</string>
-    <string name="radio_alarm_4">闹钟4</string>
+    <string name="radio_alarm_1">铃声1</string>
+    <string name="radio_alarm_2">铃声2</string>
+    <string name="radio_alarm_3">铃声3</string>
+    <string name="radio_alarm_4">铃声4</string>
     <string name="image_description">button image</string>
     <string name="about_text">Todoist Clone App - by BAWP - version 0.1</string>
     <string name="add_todos">Add a Todo...</string>

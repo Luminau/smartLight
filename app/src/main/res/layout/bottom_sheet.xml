@@ -159,6 +159,14 @@
         app:layout_constraintTop_toBottomOf="@+id/priority_todo_button">
 
         <RadioButton
+            android:id="@+id/radioButton_very_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="Highest" />
+
+        <RadioButton
             android:id="@+id/radioButton_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

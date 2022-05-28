@@ -50,7 +50,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     private SharedViewModel sharedViewModel;
     private boolean isEdit;
     private Priority priority = Priority.LOW;
-    private int alarmSound = 0;
+    private int alarmSound = 1;
 
     private int year, month, dayOfMonth, hour, minute;
 
@@ -155,6 +155,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                         priority = Priority.MEDIUM;
                     } else if (selectedPriorityRadioButton.getId() == R.id.radioButton_low) {
                         priority = Priority.LOW;
+                    } else if (selectedPriorityRadioButton.getId() == R.id.radioButton_very_high) {
+                        priority = Priority.VERYHIGH;
                     } else {
                         priority = Priority.LOW;
                     }
@@ -177,18 +179,14 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                     selectedAlarmRadioButton = view.findViewById(selectedAlarmButtonId);
                     if (selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_1) {
                         alarmSound = 1;
-                    }
-                    else if(selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_2) {
+                    } else if (selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_2) {
                         alarmSound = 2;
-                    }
-                    else if (selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_3) {
+                    } else if (selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_3) {
                         alarmSound = 3;
-                    }
-                    else if (selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_4) {
+                    } else if (selectedAlarmRadioButton.getId() == R.id.radioButton_alarm_4) {
                         alarmSound = 4;
-                    }
-                    else {
-                        alarmSound = 0; //发送0代表未进行设置错误，在单片机端采用默认铃声
+                    } else {
+                        alarmSound = 1; //发送0代表未进行设置错误，在单片机端采用默认铃声
                     }
                 }
             });
@@ -226,6 +224,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                 Snackbar.make(saveButton, R.string.empty_field, Snackbar.LENGTH_LONG)
                         .show();
             }
+            sharedViewModel.setIsEdit(false);
 
         });
 
