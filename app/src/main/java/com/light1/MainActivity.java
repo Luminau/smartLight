@@ -57,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void callUPBottomSheetFragment() {
-        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        if(!bottomSheetFragment.isAdded()){
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        }
     }
 
 }

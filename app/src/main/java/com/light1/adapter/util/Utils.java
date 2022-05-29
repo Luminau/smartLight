@@ -49,9 +49,9 @@ public class Utils {
             return "5";
         } else if (dayNumInWeek.equals("Sat")) {
             return "6";
-        } else if (dayNumInWeek.equals("Sun")){
+        } else if (dayNumInWeek.equals("Sun")) {
             return "7";
-        } else{
+        } else {
             return "";
         }
     }
@@ -98,6 +98,10 @@ public class Utils {
         } else if (task.getPriority() == Priority.MEDIUM) {
             color = Color.argb(200, 155, 179, 0);
         } else if (task.getPriority() == Priority.LOW) {
+            color = Color.argb(200, 51, 181, 129);
+        } else if (task.getPriority() == Priority.VERYHIGH) {
+            color = Color.BLACK;
+        } else {
             color = Color.argb(200, 51, 181, 129);
         }
         return color;

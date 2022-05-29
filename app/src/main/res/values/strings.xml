@@ -13,7 +13,7 @@
     <string name="button_bluetooth_on">打开设备蓝牙</string>
     <string name="button_bluetooth_off">关闭设备蓝牙</string>
     <string name="button_bluetooth_show_paired">显示曾经配对过的设备</string>
-    <string name="button_bluetooth_active_scan">主动扫描蓝牙外设</string>
+    <string name="button_bluetooth_active_scan">主动保持蓝牙链接</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -215,7 +215,14 @@ public class BluetoothManager extends Fragment {
             mDiscoverBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    discover();
+//                    discover();
+                    if(mConnectedThread != null) {
+                        mConnectedThread.writeString("AAAAAAAAAAAAAAAA");
+                        Toast.makeText(getContext(),"正在主动保持连接",Toast.LENGTH_SHORT);
+                    }
+                    else {
+                        Toast.makeText(getContext(),"请先从已配对设备中连接一个设备",Toast.LENGTH_SHORT);
+                    }
                 }
             });
         }

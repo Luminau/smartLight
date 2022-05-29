@@ -2,6 +2,7 @@ package com.light1.ui.todo_list;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,6 +122,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
 
         });
 
+        calendarView.setDate(System.currentTimeMillis());
         calendarView.setOnDateChangeListener((calendarView, year, month, dayOfMonth) -> {
             calendar.clear();
             this.year = year;
@@ -145,6 +147,19 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             priorityRadioGroup.setVisibility(
                     priorityRadioGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
             );
+
+            if (priorityRadioGroup.getVisibility() == View.VISIBLE) {
+                if (priority == Priority.VERYHIGH) {
+                    priorityRadioGroup.check(R.id.radioButton_very_high);
+                } else if (priority == Priority.HIGH) {
+                    priorityRadioGroup.check(R.id.radioButton_high);
+                } else if (priority == Priority.MEDIUM) {
+                    priorityRadioGroup.check(R.id.radioButton_med);
+                } else if (priority == Priority.LOW) {
+                    priorityRadioGroup.check(R.id.radioButton_low);
+                }
+            }
+
             priorityRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> {
                 if (priorityRadioGroup.getVisibility() == View.VISIBLE) {
                     selectedPriorityButtonId = checkedId;
@@ -173,6 +188,19 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             alarmRadioGroup.setVisibility(
                     alarmRadioGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
             );
+
+            if(alarmRadioGroup.getVisibility() == View.VISIBLE) {
+                if(alarmSound == 1) {
+                    alarmRadioGroup.check(R.id.radioButton_alarm_1);
+                } else if (alarmSound == 2) {
+                    alarmRadioGroup.check(R.id.radioButton_alarm_2);
+                } else if (alarmSound ==3) {
+                    alarmRadioGroup.check(R.id.radioButton_alarm_3);
+                } else if (alarmSound == 4) {
+                    alarmRadioGroup.check(R.id.radioButton_alarm_4);
+                }
+            }
+
             alarmRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
                 if (alarmRadioGroup.getVisibility() == View.VISIBLE) {
                     selectedAlarmButtonId = checkedId;
@@ -200,7 +228,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             calendar.set(year, month, dayOfMonth, hour, minute);
             dueDate = calendar.getTime();
 
-            if (!TextUtils.isEmpty(taskName) && dueDate != null && priority != null) {
+            if (!TextUtils.isEmpty(taskName) && dueDate != null && priority != null && alarmSound <= 4 && alarmSound >= 1) {
                 Task myTask = new Task(taskName, priority,
                         dueDate, Calendar.getInstance().getTime(),
                         false, alarmSound);
@@ -237,6 +265,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             isEdit = sharedViewModel.getIsEdit();
             Task task = sharedViewModel.getSelectedItem().getValue();
             enterTodo.setText(task.getTask());
+            priority = task.getPriority();
+            alarmSound = task.getAlarmSound();
+            dueDate = task.getDueDate();
+            calendarView.setDate(dueDate.getTime());
         } else {
             enterTodo.setText("");
         }
