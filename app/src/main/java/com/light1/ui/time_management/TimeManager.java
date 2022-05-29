@@ -30,9 +30,9 @@ public class TimeManager extends Fragment {
     private Button mTimeButton;
     private Button mDateButton;
     private Button mGetSystemTimeButton;
-    private SeekBar mAdjustBrightnessSeekBar;
-    private SeekBar mAdjustVolumeSeekBar;
-    private TextView mTextViewCurrentBrightness;
+//    private SeekBar mAdjustBrightnessSeekBar;
+//    private SeekBar mAdjustVolumeSeekBar;
+//    private TextView mTextViewCurrentBrightness;
 
     SimpleDateFormat simpleDateFormat;
     Calendar calendar;
@@ -92,18 +92,18 @@ public class TimeManager extends Fragment {
         binding = null;
     }
 
-    public void initParameters(){
+    public void initParameters() {
         calendar = Calendar.getInstance();
         simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
         mTimeButton = binding.timeButton;
         mDateButton = binding.dateButton;
-        mAdjustBrightnessSeekBar = binding.adjustBrightnessSeekBar;
-        mAdjustVolumeSeekBar = binding.adjustVolumeSeekBar;
-        mTextViewCurrentBrightness = binding.textViewCurrentBrightness;
+//        mAdjustBrightnessSeekBar = binding.adjustBrightnessSeekBar;
+//        mAdjustVolumeSeekBar = binding.adjustVolumeSeekBar;
+//        mTextViewCurrentBrightness = binding.textViewCurrentBrightness;
 //        brightness = 5;
 //        volume = 8;
-        mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(brightness));
+//        mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(brightness));
 
         mGetSystemTimeButton = binding.getSystemTimeButton;
         mTimeButton.setOnClickListener(new View.OnClickListener() {
@@ -126,43 +126,43 @@ public class TimeManager extends Fragment {
                 acquireSystemTimeAndSet();
             }
         });
-
-        mAdjustBrightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                brightness = progress;
-                mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(progress));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO: 2022/3/28 调节屏幕亮度使之更直观
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO: 2022/3/28 发送brightness数据
-
-            }
-
-        });
-
-        mAdjustVolumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                volume = progress;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+//
+//        mAdjustBrightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+//                brightness = progress;
+//                mTextViewCurrentBrightness.setText("当前亮度：" + String.valueOf(progress));
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//                // TODO: 2022/3/28 调节屏幕亮度使之更直观
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//                // TODO: 2022/3/28 发送brightness数据
+//
+//            }
+//
+//        });
+//
+//        mAdjustVolumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+//                volume = progress;
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//        });
 
     }
 
@@ -171,19 +171,18 @@ public class TimeManager extends Fragment {
         String[] dateTimeArr;
         dateTimeArr = dateTime.split("-");
         year = Integer.parseInt(dateTimeArr[0]);
-        month = Integer.parseInt(dateTimeArr[1]);
+        month = Integer.parseInt(dateTimeArr[1]) - 1;
         dayOfMonth = Integer.parseInt(dateTimeArr[2]);
         hour = Integer.parseInt(dateTimeArr[3]);
         minute = Integer.parseInt(dateTimeArr[4]);
         seconds = Integer.parseInt(dateTimeArr[5]);
-        mTimeButton.setText(String.format(Locale.getDefault(),"%02d点%02d分%02d秒",hour,minute,seconds));
-        mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号",year,month, dayOfMonth));
+        mTimeButton.setText(String.format(Locale.getDefault(), "%02d点%02d分%02d秒", hour, minute, seconds));
+        mDateButton.setText(String.format(Locale.getDefault(), "%02d年%02d月%02d号", year, month + 1, dayOfMonth));
 
 //        mTestTextView.setText(Date);
     }
 
-    public void popTimePicker(View view)
-    {
+    public void popTimePicker(View view) {
 //        int style = TimePickerDialog.THEME_HOLO_LIGHT;
 
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -191,7 +190,7 @@ public class TimeManager extends Fragment {
             public void onTimeSet(TimePicker timePicker, int selectHour, int selectMinute) {
                 hour = selectHour;
                 minute = selectMinute;
-                mTimeButton.setText(String.format(Locale.getDefault(),"%02d点%02d分",hour,minute));
+                mTimeButton.setText(String.format(Locale.getDefault(), "%02d点%02d分", hour, minute));
             }
         };
 
@@ -201,13 +200,12 @@ public class TimeManager extends Fragment {
         timePickerDialog.show();
     }
 
-    public void popDatePicker(View view)
-    {
+    public void popDatePicker(View view) {
         DatePickerDialog.OnDateSetListener onDateSetListener = (datePicker, selectYear, selectMonth, selectDate) -> {
             year = selectYear;
             month = selectMonth;
             dayOfMonth = selectDate;
-            mDateButton.setText(String.format(Locale.getDefault(),"%02d年%02d月%02d号", year, month + 1, dayOfMonth)); //month需要加1否则会少一个月
+            mDateButton.setText(String.format(Locale.getDefault(), "%02d年%02d月%02d号", year, month + 1, dayOfMonth)); //month需要加1否则会少一个月
         };
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), onDateSetListener, defaultYear, defaultMonth, defaultDayOfMonth);
