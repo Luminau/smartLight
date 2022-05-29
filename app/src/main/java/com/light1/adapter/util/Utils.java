@@ -96,9 +96,9 @@ public class Utils {
         if (task.getPriority() == Priority.HIGH) {
             color = Color.argb(200, 201, 21, 23);
         } else if (task.getPriority() == Priority.MEDIUM) {
-            color = Color.argb(200, 155, 179, 0);
+            color = Color.rgb(255, 179, 0);
         } else if (task.getPriority() == Priority.LOW) {
-            color = Color.argb(200, 51, 181, 129);
+            color = 0xff33b5e5;
         } else if (task.getPriority() == Priority.VERYHIGH) {
             color = Color.BLACK;
         } else {
