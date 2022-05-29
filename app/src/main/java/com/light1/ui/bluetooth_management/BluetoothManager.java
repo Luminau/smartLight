@@ -149,7 +149,7 @@ public class BluetoothManager extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (mConnectedThread != null) { //First check to make sure thread created
-                        String clockSetString = "STANDBY" + "&" + formatDateNoLetter2(getSetTime()) + retrieveTaskInfo(taskList) + "&";
+                        String clockSetString = "STANDBY" + "&" + formatDateNoLetter2(getSetTime()) + retrieveTaskInfo(taskList) + "\\" ;
 //                        mConnectedThread.writeString(
 //                                formatDateNoLetter(
 //                                        getSetTime()
@@ -380,13 +380,13 @@ public class BluetoothManager extends Fragment {
                 if (task.getTask().startsWith("闹钟")) {
                     out = out + "#" + task.getNumPriority() + Utils.formatDateNoLetter(task.getDueDate()) + task.getAlarmSound();
                 } else {
-                    out = out + "`";
-                    out = out + task.getTask();
                     out = out + "$";
                     out = out + task.getNumPriority();
 //                  out = out + Utils.formatDateNoLetter(task.getDateCreated());
                     out = out + Utils.formatDateNoLetter(task.getDueDate());
                     out = out + task.getAlarmSound();
+                    out = out + task.getTask();
+                    out = out + "`";
                 }
             }
             return out;

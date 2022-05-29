@@ -57,9 +57,10 @@ public class TimeManager extends Fragment {
     }
 
     public static Date getSetTime() {
-        Calendar.getInstance().clear();
-        Calendar.getInstance().set(year, month, dayOfMonth, hour, minute, seconds);
-        return Calendar.getInstance().getTime();
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.clear();
+        calendar1.set(year, month, dayOfMonth, hour, minute, seconds);
+        return calendar1.getTime();
     }
 
     private FragmentTimeManagementBinding binding;
