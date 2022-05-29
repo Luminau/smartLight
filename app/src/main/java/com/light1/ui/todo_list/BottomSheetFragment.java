@@ -100,6 +100,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             calendarGroup.setVisibility(
                     calendarGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
             );
+            priorityRadioGroup.setVisibility(View.GONE);
+            alarmRadioGroup.setVisibility(View.GONE);
             Utils.hideSoftKeyboard(view12);
 
         });
@@ -147,6 +149,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             priorityRadioGroup.setVisibility(
                     priorityRadioGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
             );
+            alarmRadioGroup.setVisibility(View.GONE);
+            calendarGroup.setVisibility(View.GONE);
 
             if (priorityRadioGroup.getVisibility() == View.VISIBLE) {
                 if (priority == Priority.VERYHIGH) {
@@ -188,6 +192,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             alarmRadioGroup.setVisibility(
                     alarmRadioGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
             );
+            priorityRadioGroup.setVisibility(View.GONE);
+            calendarGroup.setVisibility(View.GONE);
 
             if(alarmRadioGroup.getVisibility() == View.VISIBLE) {
                 if(alarmSound == 1) {
